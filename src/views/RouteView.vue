@@ -3,12 +3,12 @@
 
 <template>
     <div style="padding: 10px;">
+        <EditRouteDialog v-model:visible="editRouteDialogVisible" :data="editRouteDialogData" @commit="onCommit">
+        </EditRouteDialog>
         <el-card shadow="always">
             <div class="flex direction-column">
                 <div>
                     <el-button type="primary" @click="addItem">新增</el-button>
-                    <EditRouteDialog v-model:visible="editRouteDialogVisible" :data="editRouteDialogData"
-                        @commit="onCommit"></EditRouteDialog>
                 </div>
                 <el-table :data="tableData" border style="margin-top: 20px;">
                     <el-table-column prop="id" label="id" width="80" />

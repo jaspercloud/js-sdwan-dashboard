@@ -63,6 +63,13 @@ export default {
                 })
                 return
             }
+            if (2003 == data.code) {
+                ElMessage({
+                    message: 'mesh节点被路由使用',
+                    type: 'danger'
+                })
+                return
+            }
             await this.loadList()
         }
     }
