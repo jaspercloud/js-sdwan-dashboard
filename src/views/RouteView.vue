@@ -2,10 +2,10 @@
 <style scoped></style>
 
 <template>
-    <div style="padding: 10px;">
+    <div style="padding: 10px;" class="flex flex-item">
         <EditRouteDialog v-model:visible="editRouteDialogVisible" :data="editRouteDialogData" @commit="onCommit">
         </EditRouteDialog>
-        <el-card shadow="always">
+        <el-card shadow="always" class="flex-item">
             <div class="flex direction-column">
                 <div>
                     <el-button type="primary" @click="addItem">新增</el-button>
@@ -17,7 +17,7 @@
                     <el-table-column prop="remark" label="备注" />
                     <el-table-column label="操作">
                         <template #default="scope">
-                            <el-button link type="danger" size="small" @click="deleteItem(scope)">删除</el-button>
+                            <el-button link type="danger" size="small" @click="deleteItemDialog(scope)">删除</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -27,8 +27,9 @@
 </template>
 
 <script>
-import EditRouteDialog from '../components/EditRouteDialog.vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import axios from 'axios';
+import EditRouteDialog from '../components/EditRouteDialog.vue'
 export default {
     components: {
         EditRouteDialog
@@ -48,14 +49,42 @@ export default {
             let { status, data } = await axios.get("/api/route/list")
             this.tableData = data.data
         },
-        async onCommit(form) {
+        async onCommit(form, done) {
             console.log(form)
             let { status, data } = await axios.post("/api/route/save", form)
+            if (200 != status) {
+                ElMessage({
+                    message: 'http error',
+                    type: 'danger'
+                })
+                return
+            }
+            if (2002 == data.code) {
+                ElMessage({
+                    message: 'CIDR格式错误',
+                    type: 'danger'
+                })
+                return
+            }
+            done()
             await this.loadList()
         },
         addItem() {
             this.editRouteDialogData = {}
             this.editRouteDialogVisible = true
+        },
+        deleteItemDialog(item) {
+            ElMessageBox.confirm(
+                '是否确认删除?',
+                '提示',
+                {
+                    confirmButtonText: '确认',
+                    cancelButtonText: '取消',
+                    type: 'warning',
+                }
+            ).then(() => {
+                this.deleteItem(item)
+            })
         },
         async deleteItem(item) {
             let { status, data } = await axios.delete(`/api/route/${item.row.id}`)

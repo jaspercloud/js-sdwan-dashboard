@@ -2,6 +2,10 @@
 .el-tabs__header {
   display: none;
 }
+
+.el-tabs__content {
+  height: 100%;
+}
 </style>
 
 <template>
@@ -16,11 +20,11 @@
       </div>
     </el-header>
     <el-main>
-      <el-tabs v-model="tabCdoe" style="width: 100%; height: 100%;">
-        <el-tab-pane label="node" name="node">
+      <el-tabs v-model="tabCdoe" class="flex direction-column" style="height: 100%;">
+        <el-tab-pane label="node" name="node" style="height: 100%;" class="flex">
           <NodeView></NodeView>
         </el-tab-pane>
-        <el-tab-pane label="route" name="route">
+        <el-tab-pane label="route" name="route" style="height: 100%;" class="flex">
           <RouteView></RouteView>
         </el-tab-pane>
       </el-tabs>

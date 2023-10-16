@@ -1,8 +1,8 @@
 <style scoped></style>
 
 <template>
-    <div style="padding: 10px;">
-        <el-card shadow="always">
+    <div style="padding: 10px;" class="flex flex-item">
+        <el-card shadow="always" class="flex-item">
             <div class="flex direction-column">
                 <div class="flex direction-row-reverse">
                     <el-button type="primary" @click="loadList">刷新</el-button>
@@ -21,7 +21,7 @@
                     </el-table-column>
                     <el-table-column label="操作">
                         <template #default="scope">
-                            <el-button link type="danger" size="small" @click="deleteItem(scope)">删除</el-button>
+                            <el-button link type="danger" size="small" @click="deleteItemDialog(scope)">删除</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -31,8 +31,8 @@
 </template>
 
 <script>
+import { ElMessage, ElMessageBox } from 'element-plus'
 import axios from 'axios';
-import { ElMessage } from 'element-plus'
 export default {
     data() {
         return {
@@ -52,7 +52,21 @@ export default {
                 })
                 return
             }
+            console.log(data)
             this.tableData = data.data
+        },
+        deleteItemDialog(item) {
+            ElMessageBox.confirm(
+                '是否确认删除?',
+                '提示',
+                {
+                    confirmButtonText: '确认',
+                    cancelButtonText: '取消',
+                    type: 'warning',
+                }
+            ).then(() => {
+                this.deleteItem(item)
+            })
         },
         async deleteItem(item) {
             let { status, data } = await axios.delete(`/api/node/${item.row.id}`)

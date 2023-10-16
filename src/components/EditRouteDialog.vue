@@ -65,9 +65,11 @@ export default {
             done()
         },
         save() {
-            this.$emit("commit", this.form)
-            this.$emit("update:visible", false)
-            this.form = {}
+            const that = this
+            this.$emit("commit", this.form, () => {
+                that.$emit("update:visible", false)
+                that.form = {}
+            })
         }
     }
 }
