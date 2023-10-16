@@ -9,11 +9,17 @@
                 </div>
                 <el-table :data="tableData" border style="margin-top: 20px;">
                     <el-table-column prop="id" label="id" width="80" />
-                    <el-table-column prop="vip" label="vip" />
-                    <el-table-column prop="macAddress" label="macAddress" />
-                    <el-table-column prop="remark" label="remark" />
-                    <el-table-column prop="online" label="online" />
-                    <el-table-column label="op">
+                    <el-table-column prop="vip" label="虚拟IP" />
+                    <el-table-column prop="nodeType" label="节点类型" />
+                    <el-table-column prop="macAddress" label="网卡地址" />
+                    <el-table-column prop="remark" label="备注" />
+                    <el-table-column prop="online" label="在线">
+                        <template #default="scope">
+                            <span v-if="scope.row.online == true">在线</span>
+                            <span v-else>离线</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="操作">
                         <template #default="scope">
                             <el-button link type="danger" size="small" @click="deleteItem(scope)">删除</el-button>
                         </template>

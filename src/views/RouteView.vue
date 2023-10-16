@@ -12,10 +12,10 @@
                 </div>
                 <el-table :data="tableData" border style="margin-top: 20px;">
                     <el-table-column prop="id" label="id" width="80" />
-                    <el-table-column prop="destination" label="destination" />
-                    <el-table-column prop="nexthop" label="nexthop" />
-                    <el-table-column prop="remark" label="remark" />
-                    <el-table-column label="op">
+                    <el-table-column prop="destination" label="目标网段" />
+                    <el-table-column prop="nexthop" label="下一跳" />
+                    <el-table-column prop="remark" label="备注" />
+                    <el-table-column label="操作">
                         <template #default="scope">
                             <el-button link type="danger" size="small" @click="deleteItem(scope)">删除</el-button>
                         </template>

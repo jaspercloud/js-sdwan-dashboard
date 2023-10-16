@@ -3,16 +3,16 @@
 <template>
     <el-dialog v-model="dialogVisible" title="编辑" width="30%" :before-close="handleClose" @open="onOpen">
         <el-form :model="form" label-width="120px">
-            <el-form-item label="destination">
+            <el-form-item label="目标网段">
                 <el-input v-model="form.destination" />
                 <span>例: 192.168.1.0/24</span>
             </el-form-item>
-            <el-form-item label="nexthop">
-                <el-select v-model="form.meshId">
+            <el-form-item label="下一跳">
+                <el-select v-model="form.meshId" placeholder="请选择" class="flex-item">
                     <el-option v-for="item in meshList" :key="item.id" :label="item.vip" :value="item.id" />
                 </el-select>
             </el-form-item>
-            <el-form-item label="remark">
+            <el-form-item label="备注">
                 <el-input v-model="form.remark" />
             </el-form-item>
         </el-form>

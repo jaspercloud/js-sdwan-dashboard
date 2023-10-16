@@ -18,11 +18,10 @@
     <el-main>
       <el-tabs v-model="tabCdoe">
         <el-tab-pane label="node" name="node">
-          <!-- <NodeView></NodeView> -->
-          <RouteView></RouteView>
+          <NodeView></NodeView>
         </el-tab-pane>
         <el-tab-pane label="route" name="route">
-          <!-- <RouteView></RouteView> -->
+          <RouteView></RouteView>
         </el-tab-pane>
       </el-tabs>
     </el-main>
