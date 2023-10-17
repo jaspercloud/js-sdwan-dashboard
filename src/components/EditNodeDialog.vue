@@ -4,7 +4,7 @@
     <el-dialog v-model="dialogVisible" title="编辑" width="30%" :before-close="handleClose" @open="onOpen">
         <el-form :model="form" label-width="120px">
             <el-form-item label="虚拟IP">
-                <el-input v-model="form.vip" disabled />
+                <el-input v-model="form.vip" />
             </el-form-item>
             <el-form-item label="节点类型">
                 <el-input v-model="form.nodeType" disabled />
