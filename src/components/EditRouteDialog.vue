@@ -11,7 +11,7 @@
             </el-form-item>
             <el-form-item label="下一跳">
                 <div class="flex direction-column flex-item">
-                    <el-select v-model="form.meshId" placeholder="请选择">
+                    <el-select v-model="form.meshId" placeholder="请选择" no-data-text="没有可用的mesh">
                         <el-option v-for="item in meshList" :key="item.id" :label="item.vip" :value="item.id" />
                     </el-select>
                     <span>例: 192.168.2.1</span>
