@@ -11,6 +11,7 @@
                 <el-select v-model="form.meshId" placeholder="请选择" class="flex-item">
                     <el-option v-for="item in meshList" :key="item.id" :label="item.vip" :value="item.id" />
                 </el-select>
+                <span>例: 192.168.2.1</span>
             </el-form-item>
             <el-form-item label="备注">
                 <el-input v-model="form.remark" />
