@@ -52,7 +52,6 @@ export default {
                 })
                 return
             }
-            console.log(data)
             this.tableData = data.data
         },
         deleteItemDialog(item) {

@@ -50,7 +50,6 @@ export default {
             this.tableData = data.data
         },
         async onCommit(form, done) {
-            console.log(form)
             let { status, data } = await axios.post("/api/route/save", form)
             if (200 != status) {
                 ElMessage({
