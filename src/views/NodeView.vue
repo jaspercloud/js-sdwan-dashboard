@@ -2,6 +2,8 @@
 
 <template>
     <div style="padding: 10px;" class="flex flex-item">
+        <EditNodeDialog v-model:visible="editNodeDialogVisible" :data="editNodeDialogData" @commit="onCommit">
+        </EditNodeDialog>
         <el-card shadow="always" class="flex-item">
             <div class="flex direction-column">
                 <div class="flex direction-row-reverse">
@@ -21,6 +23,7 @@
                     </el-table-column>
                     <el-table-column label="操作">
                         <template #default="scope">
+                            <el-button link type="primary" size="small" @click="editItemDialog(scope)">编辑</el-button>
                             <el-button link type="danger" size="small" @click="deleteItemDialog(scope)">删除</el-button>
                         </template>
                     </el-table-column>
@@ -33,10 +36,16 @@
 <script>
 import { ElMessage, ElMessageBox } from 'element-plus'
 import axios from 'axios';
+import EditNodeDialog from '../components/EditNodeDialog.vue'
 export default {
+    components: {
+        EditNodeDialog
+    },
     data() {
         return {
-            tableData: []
+            tableData: [],
+            editNodeDialogVisible: false,
+            editNodeDialogData: {}
         }
     },
     async mounted() {
@@ -53,6 +62,22 @@ export default {
                 return
             }
             this.tableData = data.data
+        },
+        async onCommit(form, done) {
+            let { status, data } = await axios.put("/api/node", form)
+            if (200 != status) {
+                ElMessage({
+                    message: 'http error',
+                    type: 'danger'
+                })
+                return
+            }
+            done()
+            await this.loadList()
+        },
+        editItemDialog(item) {
+            this.editNodeDialogData = JSON.parse(JSON.stringify(item.row))
+            this.editNodeDialogVisible = true
         },
         deleteItemDialog(item) {
             ElMessageBox.confirm(

@@ -3,19 +3,14 @@
 <template>
     <el-dialog v-model="dialogVisible" title="编辑" width="30%" :before-close="handleClose" @open="onOpen">
         <el-form :model="form" label-width="120px">
-            <el-form-item label="目标网段">
-                <div class="flex direction-column flex-item">
-                    <el-input v-model="form.destination" />
-                    <span>例: 192.168.1.0/24</span>
-                </div>
+            <el-form-item label="虚拟IP">
+                <el-input v-model="form.vip" disabled />
             </el-form-item>
-            <el-form-item label="下一跳">
-                <div class="flex direction-column flex-item">
-                    <el-select v-model="form.meshId" placeholder="请选择" no-data-text="没有可用的mesh">
-                        <el-option v-for="item in meshList" :key="item.id" :label="item.vip" :value="item.id" />
-                    </el-select>
-                    <span>例: 192.168.2.1</span>
-                </div>
+            <el-form-item label="节点类型">
+                <el-input v-model="form.nodeType" disabled />
+            </el-form-item>
+            <el-form-item label="网卡地址">
+                <el-input v-model="form.macAddress" disabled />
             </el-form-item>
             <el-form-item label="备注">
                 <el-input v-model="form.remark" />
@@ -57,12 +52,6 @@ export default {
     },
     methods: {
         async onOpen() {
-            const that = this
-            let { status, data } = await axios.get("/api/node/meshList")
-            this.meshList = []
-            data.data.forEach(e => {
-                that.meshList.push(e)
-            });
         },
         handleClose(done) {
             this.$emit("update:visible", false)
