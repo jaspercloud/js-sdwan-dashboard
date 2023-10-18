@@ -14,6 +14,9 @@
                     <el-table-column prop="vip" label="虚拟IP" />
                     <el-table-column prop="nodeType" label="节点类型" />
                     <el-table-column prop="macAddress" label="网卡地址" />
+                    <el-table-column prop="mapping" label="映射" />
+                    <el-table-column prop="filtering" label="过滤" />
+                    <el-table-column prop="mappingAddress" label="公网地址" />
                     <el-table-column prop="remark" label="备注" />
                     <el-table-column prop="online" label="在线">
                         <template #default="scope">

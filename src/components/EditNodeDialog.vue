@@ -12,6 +12,15 @@
             <el-form-item label="网卡地址">
                 <el-input v-model="form.macAddress" disabled />
             </el-form-item>
+            <el-form-item label="映射">
+                <el-input v-model="form.mapping" disabled />
+            </el-form-item>
+            <el-form-item label="过滤">
+                <el-input v-model="form.filtering" disabled />
+            </el-form-item>
+            <el-form-item label="公网地址">
+                <el-input v-model="form.mappingAddress" disabled />
+            </el-form-item>
             <el-form-item label="备注">
                 <el-input v-model="form.remark" />
             </el-form-item>
