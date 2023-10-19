@@ -18,8 +18,11 @@
             <el-form-item label="过滤">
                 <el-input v-model="form.filtering" disabled />
             </el-form-item>
-            <el-form-item label="公网地址">
+            <el-form-item label="公网映射地址">
                 <el-input v-model="form.mappingAddress" disabled />
+            </el-form-item>
+            <el-form-item label="中继地址">
+                <el-input v-model="form.relayAddress" disabled />
             </el-form-item>
             <el-form-item label="备注">
                 <el-input v-model="form.remark" />
