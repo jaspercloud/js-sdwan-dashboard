@@ -7,8 +7,13 @@
         </EditRouteDialog>
         <el-card shadow="always" class="flex-item">
             <div class="flex direction-column">
-                <div>
-                    <el-button type="primary" @click="addItem">新增</el-button>
+                <div class="flex direction-row">
+                    <div class="flex flex-item">
+                        <el-button type="primary" @click="addItem">新增</el-button>
+                    </div>
+                    <div class="flex flex-item direction-row-reverse">
+                        <el-button type="primary" @click="loadList">刷新</el-button>
+                    </div>
                 </div>
                 <el-table :data="tableData" border style="margin-top: 20px;">
                     <el-table-column prop="id" label="id" width="80" />

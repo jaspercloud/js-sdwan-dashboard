@@ -14,10 +14,22 @@
                     <el-table-column prop="vip" label="虚拟IP" />
                     <el-table-column prop="nodeType" label="节点类型" />
                     <el-table-column prop="macAddress" label="网卡地址" />
-                    <el-table-column prop="mapping" label="映射" />
-                    <el-table-column prop="filtering" label="过滤" />
-                    <el-table-column prop="mappingAddress" label="公网映射地址" />
-                    <el-table-column prop="relayAddress" label="中继地址" />
+                    <el-table-column prop="localAddress" label="内网地址" />
+                    <el-table-column label="公网映射地址">
+                        <template #default="scope">
+                            <el-tooltip effect="dark" :content="scope.row.mappingType" placement="top">
+                                <div>{{ scope.row.mappingAddress }}</div>
+                            </el-tooltip>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="中继地址">
+                        <template #default="scope">
+                            <!-- <div>{{ scope.row.token }}</div> -->
+                            <el-tooltip effect="dark" :content="scope.row.token" placement="top">
+                                <div>{{ scope.row.relayAddress }}</div>
+                            </el-tooltip>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="remark" label="备注" />
                     <el-table-column prop="online" label="在线">
                         <template #default="scope">
@@ -65,6 +77,24 @@ export default {
                 })
                 return
             }
+            data.data.forEach(item => {
+                if (null == item.addressList) {
+                    return
+                }
+                item.addressList.forEach(address => {
+                    let url = new URL(address)
+                    console.log(url)
+                    if ("host:" === url.protocol) {
+                        item.localAddress = url.pathname.replaceAll("//", "")
+                    } else if ("srflx:" === url.protocol) {
+                        item.mappingAddress = url.pathname.replaceAll("//", "")
+                        item.mappingType = url.searchParams.get("mappingType")
+                    } else if ("relay:" === url.protocol) {
+                        item.relayAddress = url.pathname.replaceAll("//", "")
+                        item.token = url.searchParams.get("token")
+                    }
+                })
+            });
             this.tableData = data.data
         },
         async onCommit(form, done) {
