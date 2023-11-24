@@ -4,12 +4,12 @@
     <div style="padding: 10px;" class="flex flex-item">
         <EditNodeDialog v-model:visible="editNodeDialogVisible" :data="editNodeDialogData" @commit="onCommit">
         </EditNodeDialog>
-        <el-card shadow="always" class="flex-item">
+        <el-card ref="nodeCard" shadow="always" class="flex-item">
             <div class="flex direction-column">
                 <div class="flex direction-row-reverse">
                     <el-button type="primary" @click="loadList">刷新</el-button>
                 </div>
-                <el-table :data="tableData" border style="margin-top: 20px;">
+                <el-table :data="tableData" border style="margin-top: 20px;" :height="tableHeight">
                     <el-table-column prop="id" label="id" width="80" />
                     <el-table-column prop="vip" label="虚拟IP" />
                     <el-table-column prop="nodeType" label="节点类型" />
@@ -59,12 +59,19 @@ export default {
     },
     data() {
         return {
+            tableHeight: 0,
             tableData: [],
             editNodeDialogVisible: false,
             editNodeDialogData: {}
         }
     },
     async mounted() {
+        let that = this
+        let nodeCard = this.$refs.nodeCard
+        nodeCard.$nextTick(() => {
+            let height = nodeCard.$el.offsetHeight - 2 * 20 - 32 - 20
+            that.tableHeight = height
+        })
         await this.loadList()
     },
     methods: {
@@ -83,7 +90,6 @@ export default {
                 }
                 item.addressList.forEach(address => {
                     let url = new URL(address)
-                    console.log(url)
                     if ("host:" === url.protocol) {
                         item.localAddress = url.pathname.replaceAll("//", "")
                     } else if ("srflx:" === url.protocol) {
