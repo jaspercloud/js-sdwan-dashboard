@@ -25,10 +25,10 @@
     </el-header>
     <el-main>
       <el-tabs v-model="tabCdoe" class="flex direction-column" style="height: 100%;">
-        <el-tab-pane label="node" name="node" style="height: 100%;" class="flex">
+        <el-tab-pane label="node" name="node" style="height: 100%;" class="flex" lazy="true">
           <NodeView></NodeView>
         </el-tab-pane>
-        <el-tab-pane label="route" name="route" style="height: 100%;" class="flex">
+        <el-tab-pane label="route" name="route" style="height: 100%;" class="flex" lazy="true">
           <RouteView></RouteView>
         </el-tab-pane>
       </el-tabs>

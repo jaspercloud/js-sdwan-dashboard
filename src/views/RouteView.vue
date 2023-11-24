@@ -5,7 +5,7 @@
     <div style="padding: 10px;" class="flex flex-item">
         <EditRouteDialog v-model:visible="editRouteDialogVisible" :data="editRouteDialogData" @commit="onCommit">
         </EditRouteDialog>
-        <el-card shadow="always" class="flex-item">
+        <el-card ref="routeCard" shadow="always" class="flex-item">
             <div class="flex direction-column">
                 <div class="flex direction-row">
                     <div class="flex flex-item">
@@ -15,7 +15,7 @@
                         <el-button type="primary" @click="loadList">刷新</el-button>
                     </div>
                 </div>
-                <el-table :data="tableData" border style="margin-top: 20px;">
+                <el-table :data="tableData" border style="margin-top: 20px;" :height="tableHeight">
                     <el-table-column prop="id" label="id" width="80" />
                     <el-table-column prop="destination" label="目标网段" />
                     <el-table-column prop="nexthop" label="下一跳" />
@@ -41,12 +41,19 @@ export default {
     },
     data() {
         return {
+            tableHeight: 0,
             tableData: [],
             editRouteDialogVisible: false,
             editRouteDialogData: {}
         }
     },
     async mounted() {
+        let that = this
+        let card = this.$refs.routeCard
+        card.$nextTick(() => {
+            let height = card.$el.offsetHeight - 2 * 20 - 32 - 20
+            that.tableHeight = height
+        })
         await this.loadList()
     },
     methods: {

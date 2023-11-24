@@ -67,9 +67,9 @@ export default {
     },
     async mounted() {
         let that = this
-        let nodeCard = this.$refs.nodeCard
-        nodeCard.$nextTick(() => {
-            let height = nodeCard.$el.offsetHeight - 2 * 20 - 32 - 20
+        let card = this.$refs.nodeCard
+        card.$nextTick(() => {
+            let height = card.$el.offsetHeight - 2 * 20 - 32 - 20
             that.tableHeight = height
         })
         await this.loadList()
