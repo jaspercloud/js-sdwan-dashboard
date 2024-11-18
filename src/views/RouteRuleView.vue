@@ -7,12 +7,13 @@
             <el-table-column prop="id" label="序号" width="120" />
             <el-table-column prop="name" label="名称" width="120" />
             <el-table-column prop="description" label="描述" width="120" />
-            <el-table-column prop="destination" label="目标地址" width="120" />
-            <el-table-column label="节点列表">
+            <el-table-column prop="direction" label="方向" width="120">
                 <template #default="scope">
-                    <div>{{ showNodeList(scope.row) }}</div>
+                    <span v-if="scope.row.direction === 'Input'">入口</span>
+                    <span v-if="scope.row.direction === 'Output'">出口</span>
                 </template>
             </el-table-column>
+            <el-table-column prop="ruleList" label="规则" />
             <el-table-column label="是否启用" width="120">
                 <template #default="scope">
                     <el-switch v-model="scope.row.enable" disabled class="switch" />
@@ -33,14 +34,14 @@
                 <el-form-item label="描述">
                     <el-input v-model="dialog.form.description" />
                 </el-form-item>
-                <el-form-item label="目标地址">
-                    <el-input v-model="dialog.form.destination" />
-                </el-form-item>
-                <el-form-item label="节点列表">
-                    <el-select multiple collapse-tags collapse-tags-tooltip v-model="dialog.form.nodeIdList"
-                        placeholder="请选择">
-                        <el-option v-for="item in dialog.nodeList" :key="item.id" :label="item.name" :value="item.id" />
+                <el-form-item label="方向">
+                    <el-select v-model="dialog.form.direction" placeholder="请选择">
+                        <el-option v-for="item in directionOptions" :key="item.value" :label="item.label"
+                            :value="item.value" />
                     </el-select>
+                </el-form-item>
+                <el-form-item label="规则">
+                    <tag-x v-model="dialog.form.ruleList"></tag-x>
                 </el-form-item>
                 <el-form-item label="分组列表">
                     <el-select multiple collapse-tags collapse-tags-tooltip v-model="dialog.form.groupIdList"
@@ -66,8 +67,12 @@
 <script>
 import { ElMessageBox } from 'element-plus';
 import http from '../api';
+import TagX from '../components/TagX.vue';
 
 export default {
+    components: {
+        "tag-x": TagX
+    },
     data() {
         return {
             dialog: {
@@ -76,6 +81,16 @@ export default {
                 title: "",
                 form: {}
             },
+            directionOptions: [
+                {
+                    "label": "入口",
+                    "value": "Input"
+                },
+                {
+                    "label": "出口",
+                    "value": "Output"
+                }
+            ],
             tableData: [
             ]
         }
@@ -102,53 +117,33 @@ export default {
             done()
         },
         async openAddDialog() {
-            let { status: nodeStatus, data: nodeData } = await http.get(`/api/node/list`)
             let { status: groupStatus, data: groupData } = await http.get(`/api/group/list`)
             this.dialog = {
                 visible: true,
                 type: "add",
-                nodeList: nodeData,
                 groupList: groupData,
                 form: {
                     name: "",
                     description: "",
-                    destination: "",
-                    nodeIdList: [],
+                    direction: "",
+                    ruleList: [],
                     groupIdList: [],
                     enable: true
                 }
             }
         },
         async openEditDialog(row) {
-            let { status, data } = await http.get(`/api/route/detail/${row.id}`)
-            let { status: nodeStatus, data: nodeData } = await http.get(`/api/node/list`)
+            let { status, data } = await http.get(`/api/route-rule/detail/${row.id}`)
             let { status: groupStatus, data: groupData } = await http.get(`/api/group/list`)
-            let nodeIdList = []
-            data.nodeList.forEach(e => {
-                nodeIdList.push(e.id)
-            })
-            let groupIdList = []
-            data.groupList.forEach(e => {
-                groupIdList.push(e.id)
-            })
             this.dialog = {
                 visible: true,
                 type: "edit",
-                nodeList: nodeData,
                 groupList: groupData,
-                form: {
-                    id: data.id,
-                    name: data.name,
-                    description: data.description,
-                    destination: data.destination,
-                    nodeIdList: nodeIdList,
-                    groupIdList: groupIdList,
-                    enable: data.enable
-                }
+                form: data
             }
         },
         async list() {
-            let { status, data } = await http.get(`/api/route/list`)
+            let { status, data } = await http.get(`/api/route-rule/list`)
             this.tableData = data
         },
         async saveOrUpdate() {
@@ -163,12 +158,12 @@ export default {
             await this.list()
         },
         async save() {
-            let { status, data } = await http.post(`/api/route/add`, this.dialog.form)
+            let { status, data } = await http.post(`/api/route-rule/add`, this.dialog.form)
             this.dialog.visible = false
             this.list()
         },
         async edit() {
-            let { status, data } = await http.post(`/api/route/edit`, this.dialog.form)
+            let { status, data } = await http.post(`/api/route-rule/edit`, this.dialog.form)
             this.dialog.visible = false
         },
         del(row) {
@@ -181,22 +176,11 @@ export default {
                     type: 'info'
                 }
             ).then(async () => {
-                let { status, data } = await http.post(`/api/route/del`, {
+                let { status, data } = await http.post(`/api/route-rule/del`, {
                     id: row.id
                 })
                 await this.list()
             })
-        },
-        showNodeList(row) {
-            let list = []
-            row.nodeList.forEach(e => {
-                let label = e.name
-                if (null == label) {
-                    label = e.mac
-                }
-                list.push(label)
-            });
-            return list.join(", ")
         }
     }
 }

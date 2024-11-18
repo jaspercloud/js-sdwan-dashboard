@@ -7,12 +7,8 @@
             <el-table-column prop="id" label="序号" width="120" />
             <el-table-column prop="name" label="名称" width="120" />
             <el-table-column prop="description" label="描述" width="120" />
-            <el-table-column prop="destination" label="目标地址" width="120" />
-            <el-table-column label="节点列表">
-                <template #default="scope">
-                    <div>{{ showNodeList(scope.row) }}</div>
-                </template>
-            </el-table-column>
+            <el-table-column prop="srcCidr" label="源地址" />
+            <el-table-column prop="dstCidr" label="目标地址" />
             <el-table-column label="是否启用" width="120">
                 <template #default="scope">
                     <el-switch v-model="scope.row.enable" disabled class="switch" />
@@ -33,14 +29,11 @@
                 <el-form-item label="描述">
                     <el-input v-model="dialog.form.description" />
                 </el-form-item>
-                <el-form-item label="目标地址">
-                    <el-input v-model="dialog.form.destination" />
+                <el-form-item label="源地址">
+                    <el-input v-model="dialog.form.srcCidr" />
                 </el-form-item>
-                <el-form-item label="节点列表">
-                    <el-select multiple collapse-tags collapse-tags-tooltip v-model="dialog.form.nodeIdList"
-                        placeholder="请选择">
-                        <el-option v-for="item in dialog.nodeList" :key="item.id" :label="item.name" :value="item.id" />
-                    </el-select>
+                <el-form-item label="目标地址">
+                    <el-input v-model="dialog.form.dstCidr" />
                 </el-form-item>
                 <el-form-item label="分组列表">
                     <el-select multiple collapse-tags collapse-tags-tooltip v-model="dialog.form.groupIdList"
@@ -102,53 +95,33 @@ export default {
             done()
         },
         async openAddDialog() {
-            let { status: nodeStatus, data: nodeData } = await http.get(`/api/node/list`)
             let { status: groupStatus, data: groupData } = await http.get(`/api/group/list`)
             this.dialog = {
                 visible: true,
                 type: "add",
-                nodeList: nodeData,
                 groupList: groupData,
                 form: {
                     name: "",
                     description: "",
-                    destination: "",
-                    nodeIdList: [],
+                    srcCidr: "",
+                    dstCidr: "",
                     groupIdList: [],
                     enable: true
                 }
             }
         },
         async openEditDialog(row) {
-            let { status, data } = await http.get(`/api/route/detail/${row.id}`)
-            let { status: nodeStatus, data: nodeData } = await http.get(`/api/node/list`)
+            let { status, data } = await http.get(`/api/vnat/detail/${row.id}`)
             let { status: groupStatus, data: groupData } = await http.get(`/api/group/list`)
-            let nodeIdList = []
-            data.nodeList.forEach(e => {
-                nodeIdList.push(e.id)
-            })
-            let groupIdList = []
-            data.groupList.forEach(e => {
-                groupIdList.push(e.id)
-            })
             this.dialog = {
                 visible: true,
                 type: "edit",
-                nodeList: nodeData,
                 groupList: groupData,
-                form: {
-                    id: data.id,
-                    name: data.name,
-                    description: data.description,
-                    destination: data.destination,
-                    nodeIdList: nodeIdList,
-                    groupIdList: groupIdList,
-                    enable: data.enable
-                }
+                form: data
             }
         },
         async list() {
-            let { status, data } = await http.get(`/api/route/list`)
+            let { status, data } = await http.get(`/api/vnat/list`)
             this.tableData = data
         },
         async saveOrUpdate() {
@@ -163,12 +136,12 @@ export default {
             await this.list()
         },
         async save() {
-            let { status, data } = await http.post(`/api/route/add`, this.dialog.form)
+            let { status, data } = await http.post(`/api/vnat/add`, this.dialog.form)
             this.dialog.visible = false
             this.list()
         },
         async edit() {
-            let { status, data } = await http.post(`/api/route/edit`, this.dialog.form)
+            let { status, data } = await http.post(`/api/vnat/edit`, this.dialog.form)
             this.dialog.visible = false
         },
         del(row) {
@@ -181,22 +154,11 @@ export default {
                     type: 'info'
                 }
             ).then(async () => {
-                let { status, data } = await http.post(`/api/route/del`, {
+                let { status, data } = await http.post(`/api/vnat/del`, {
                     id: row.id
                 })
                 await this.list()
             })
-        },
-        showNodeList(row) {
-            let list = []
-            row.nodeList.forEach(e => {
-                let label = e.name
-                if (null == label) {
-                    label = e.mac
-                }
-                list.push(label)
-            });
-            return list.join(", ")
         }
     }
 }
