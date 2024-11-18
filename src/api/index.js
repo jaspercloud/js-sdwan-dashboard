@@ -6,13 +6,17 @@ const http = axios.create({
 });
 
 let { status, data } = await http.post("/api/account/login", {
-    "username": "test",
-    "password": "test"
+    "username": "root",
+    "password": "root"
 })
 console.log(data)
 
 http.interceptors.request.use(config => {
     config.headers["Access-Token"] = data.accessToken
+    let tenantId = sessionStorage.getItem("tenantId")
+    if (null != tenantId) {
+        config.headers["X-Tenant-Id"] = tenantId
+    }
     return config;
 }, error => {
     // 请求错误处理

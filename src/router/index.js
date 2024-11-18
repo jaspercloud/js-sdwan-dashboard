@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import TenantIndex from '../views/TenantIndex.vue'
+import TenantView from '../views/TenantView.vue'
+import TenantSpaceView from '../views/TenantSpaceView.vue'
 import NodeView from '../views/NodeView.vue'
 import RouteView from '../views/RouteView.vue'
 import RouteRuleView from '../views/RouteRuleView.vue'
@@ -11,33 +12,38 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/tenantIndex',
-      name: 'tenantIndex',
-      component: TenantIndex,
-      redirect: "tenantIndex/node",
+      path: '/tenant',
+      name: 'tenant',
+      component: TenantView,
+    },
+    {
+      path: '/tenantSpace',
+      name: 'tenantSpace',
+      component: TenantSpaceView,
+      redirect: "/tenantSpace/node",
       children: [
         {
-          path: '/tenantIndex/node',
+          path: '/tenantSpace/node',
           name: 'node',
           component: NodeView
         },
         {
-          path: '/tenantIndex/route',
+          path: '/tenantSpace/route',
           name: 'route',
           component: RouteView
         },
         {
-          path: '/tenantIndex/rule',
+          path: '/tenantSpace/rule',
           name: 'rule',
           component: RouteRuleView
         },
         {
-          path: '/tenantIndex/vnat',
+          path: '/tenantSpace/vnat',
           name: 'vnat',
           component: VnatView
         },
         {
-          path: '/tenantIndex/group',
+          path: '/tenantSpace/group',
           name: 'group',
           component: GroupView
         }

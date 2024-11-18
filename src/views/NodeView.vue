@@ -90,7 +90,11 @@
                                         <span v-if="scope.row.direction === 'Output'">出口</span>
                                     </template>
                                 </el-table-column>
-                                <el-table-column prop="ruleList" label="规则" />
+                                <el-table-column label="规则">
+                                    <template #default="scope">
+                                        {{ scope.row.ruleList.join(", ") }}
+                                    </template>
+                                </el-table-column>
                             </el-table>
                         </el-descriptions-item>
                     </el-descriptions>
@@ -233,6 +237,7 @@ export default {
                 let { status, data } = await http.post(`/api/node/del`, {
                     id: row.id
                 })
+                this.dialog.visible = false
                 await this.list()
             })
         },

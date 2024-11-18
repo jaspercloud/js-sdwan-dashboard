@@ -184,6 +184,7 @@ export default {
                 let { status, data } = await http.post(`/api/route/del`, {
                     id: row.id
                 })
+                this.dialog.visible = false
                 await this.list()
             })
         },

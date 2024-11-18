@@ -7,11 +7,17 @@
             <el-table-column prop="id" label="序号" width="120" />
             <el-table-column prop="name" label="名称" />
             <el-table-column prop="description" label="描述" />
+            <el-table-column label="默认">
+                <template #default="scope">
+                    <span v-if="scope.row.defaultGroup">默认</span>
+                </template>
+            </el-table-column>
             <el-table-column label="操作" fixed="right" width="300">
                 <template #default="scope">
                     <el-button link type="primary" size="small" @click="members(scope.row.id)">成员管理</el-button>
                     <el-button link type="primary" size="small" @click="openEditDialog(scope.row)">编辑</el-button>
-                    <el-button link type="primary" size="small" @click="del(scope.row)">删除</el-button>
+                    <el-button v-if="!scope.row.defaultGroup" link type="primary" size="small"
+                        @click="del(scope.row)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -165,6 +171,7 @@ export default {
                 let { status, data } = await http.post(`/api/group/del`, {
                     id: row.id
                 })
+                this.dialog.visible = false
                 await this.list()
             })
         },
