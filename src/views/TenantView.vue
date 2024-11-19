@@ -2,7 +2,6 @@
     <div style="padding: 20px;">
         <div class="header flex direction-row-reverse">
             <el-button type="primary" size="large" @click="openAddDialog">新增</el-button>
-            <el-button type="primary" @click="list">刷新</el-button>
         </div>
         <div style="margin-top: 20px;">
             <el-space wrap>
@@ -47,10 +46,11 @@
                         <el-input v-model="dialog.form.code" :disabled="dialog.type === 'edit'" />
                     </el-form-item>
                     <el-form-item label="账号">
-                        <el-input v-model="dialog.form.username" :disabled="dialog.type === 'edit'" />
+                        <el-input v-model="dialog.form.username" :disabled="dialog.type === 'edit'"
+                            autocomplete="off" />
                     </el-form-item>
                     <el-form-item label="密码">
-                        <el-input v-model="dialog.form.password" type="password" />
+                        <el-input v-model="dialog.form.password" type="password" autocomplete="new-password" />
                     </el-form-item>
                     <el-form-item label="地址池">
                         <el-input v-model="dialog.form.cidr" placeholder="192.168.1.0/24"
