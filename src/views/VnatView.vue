@@ -36,7 +36,7 @@
                 <el-form-item label="目标地址池">
                     <el-input v-model="dialog.form.dstCidr" placeholder="192.168.1.1/24" />
                 </el-form-item>
-                <el-form-item label="分组列表">
+                <el-form-item label="应用于分组">
                     <el-select multiple collapse-tags collapse-tags-tooltip v-model="dialog.form.groupIdList"
                         placeholder="请选择">
                         <el-option v-for="item in dialog.groupList" :key="item.id" :label="item.name"

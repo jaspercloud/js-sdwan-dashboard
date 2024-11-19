@@ -43,7 +43,7 @@
                         <el-option v-for="item in dialog.nodeList" :key="item.id" :label="item.name" :value="item.id" />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="分组列表">
+                <el-form-item label="应用到分组">
                     <el-select multiple collapse-tags collapse-tags-tooltip v-model="dialog.form.groupIdList"
                         placeholder="请选择">
                         <el-option v-for="item in dialog.groupList" :key="item.id" :label="item.name"

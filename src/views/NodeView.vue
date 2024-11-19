@@ -41,7 +41,7 @@
                 <el-form-item label="物理地址">
                     <el-input v-model="dialog.form.mac" :disabled="dialog.type === 'edit'" />
                 </el-form-item>
-                <el-form-item label="分组">
+                <el-form-item label="应用到分组">
                     <el-select multiple collapse-tags collapse-tags-tooltip v-model="dialog.form.groupIdList"
                         placeholder="请选择">
                         <el-option v-for="item in dialog.groupList" :key="item.id" :label="item.name" :value="item.id">
@@ -118,7 +118,7 @@
                             </el-table>
                         </el-descriptions-item>
                     </el-descriptions>
-                    <el-descriptions title="分组管理">
+                    <el-descriptions title="应用到分组">
                         <el-descriptions-item>
                             <el-table :data="nodeDetailDialog.form.groupList">
                                 <el-table-column prop="name" label="名称" />

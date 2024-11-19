@@ -48,7 +48,7 @@
                 <el-form-item label="规则">
                     <tag-x v-model="dialog.form.ruleList" placeholder="192.168.1.1/24"></tag-x>
                 </el-form-item>
-                <el-form-item label="分组列表">
+                <el-form-item label="应用到分组">
                     <el-select multiple collapse-tags collapse-tags-tooltip v-model="dialog.form.groupIdList"
                         placeholder="请选择">
                         <el-option v-for="item in dialog.groupList" :key="item.id" :label="item.name"
