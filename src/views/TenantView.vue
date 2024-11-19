@@ -2,6 +2,7 @@
     <div style="padding: 20px;">
         <div class="header flex direction-row-reverse">
             <el-button type="primary" size="large" @click="openAddDialog">新增</el-button>
+            <el-button type="primary" @click="list">刷新</el-button>
         </div>
         <div style="margin-top: 20px;">
             <el-space wrap>

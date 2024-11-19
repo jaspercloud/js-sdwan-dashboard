@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import IndexView from '../views/IndexView.vue'
+import DownloadView from '../views/DownloadView.vue'
 import TenantView from '../views/TenantView.vue'
 import TenantSpaceView from '../views/TenantSpaceView.vue'
 import NodeView from '../views/NodeView.vue'
@@ -16,6 +17,11 @@ const router = createRouter({
       path: '/',
       name: 'index',
       component: IndexView,
+    },
+    {
+      path: '/download',
+      name: 'download',
+      component: DownloadView,
     },
     {
       path: '/tenant',

@@ -29,12 +29,8 @@ http.interceptors.response.use(
             // 客户端请求错误处理
             const { status } = error.response;
             if (status == 401) {
-                ElMessageBox.alert('登录已失效', '提示', {
-                    confirmButtonText: 'OK',
-                    callback: action => {
-                        router.replace("/")
-                    }
-                })
+                ElMessage.error("登录已失效")
+                router.replace("/")
             } else if (status != 200) {
                 ElMessage.error(error.response.data)
             }

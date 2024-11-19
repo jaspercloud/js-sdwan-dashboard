@@ -2,6 +2,7 @@
     <div class="flex direction-column">
         <div>
             <el-button type="primary" @click="openAddDialog">新增</el-button>
+            <el-button type="primary" @click="list">刷新</el-button>
         </div>
         <el-table :data="tableData" stripe style="height: 100%;" max-height="auto">
             <el-table-column prop="id" label="序号" width="120" />
