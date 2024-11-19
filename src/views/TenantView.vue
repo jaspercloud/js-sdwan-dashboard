@@ -208,7 +208,7 @@ export default {
             })
         },
         enter(row) {
-            window.open(`/tenantSpace?tenantId=${row.id}`, '_blank');
+            window.open(`/#/tenantSpace?tenantId=${row.id}`, '_blank');
         }
     }
 }

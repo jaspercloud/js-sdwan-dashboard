@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import IndexView from '../views/IndexView.vue'
 import DownloadView from '../views/DownloadView.vue'
 import TenantView from '../views/TenantView.vue'
@@ -11,7 +11,7 @@ import GroupView from '../views/GroupView.vue'
 import TestView from '../views/TestView.vue'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
