@@ -14,8 +14,10 @@
                             </div>
                         </template>
                         <el-descriptions :column="2">
-                            <el-descriptions-item label="状态">{{ item.enable }}</el-descriptions-item>
-                            <el-descriptions-item label="是否需要认证">{{ item.nodeGrant }}</el-descriptions-item>
+                            <el-descriptions-item label="状态">{{ item.enable ? '启用' : '禁用' }}</el-descriptions-item>
+                            <el-descriptions-item label="是否需要认证">
+                                {{ item.nodeGrant ? '需认证' : '无认证' }}
+                            </el-descriptions-item>
                             <el-descriptions-item label="地址池">{{ item.cidr }}</el-descriptions-item>
                             <el-descriptions-item label="编码">{{ item.code }}</el-descriptions-item>
                             <el-descriptions-item label="在线数">{{ item.onlineNode }}</el-descriptions-item>
@@ -85,6 +87,11 @@
 .footer .el-button+.el-button {
     margin-left: 0px;
     margin-top: 10px;
+}
+
+.switch {
+    --el-switch-on-color: #13ce66;
+    --el-switch-off-color: #ff4949
 }
 </style>
 <script>

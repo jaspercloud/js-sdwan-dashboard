@@ -15,6 +15,11 @@
                     {{ showOnlineStatus(scope.row) }}
                 </template>
             </el-table-column>
+            <el-table-column label="是否启用" width="120">
+                <template #default="scope">
+                    <el-switch v-model="scope.row.enable" disabled class="switch" />
+                </template>
+            </el-table-column>
             <el-table-column label="操作" fixed="right" width="300">
                 <template #default="scope">
                     <el-button link type="primary" size="small" @click="openDetailDialog(scope.row)">详情</el-button>
@@ -33,7 +38,7 @@
                     <el-input v-model="dialog.form.description" />
                 </el-form-item>
                 <el-form-item label="物理地址">
-                    <el-input v-model="dialog.form.mac" />
+                    <el-input v-model="dialog.form.mac" :disabled="dialog.type === 'edit'" />
                 </el-form-item>
                 <el-form-item label="分组">
                     <el-select multiple collapse-tags collapse-tags-tooltip v-model="dialog.form.groupIdList"
@@ -122,10 +127,15 @@
         </el-dialog>
     </div>
 </template>
+<style>
+.switch {
+    --el-switch-on-color: #13ce66;
+    --el-switch-off-color: #ff4949
+}
+</style>
 <script>
 import { ElMessageBox } from 'element-plus';
 import http from '../api';
-
 export default {
     data() {
         return {

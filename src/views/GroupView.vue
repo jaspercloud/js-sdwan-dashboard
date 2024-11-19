@@ -59,10 +59,15 @@
         </el-dialog>
     </div>
 </template>
+<style>
+.switch {
+    --el-switch-on-color: #13ce66;
+    --el-switch-off-color: #ff4949
+}
+</style>
 <script>
 import http from '../api';
 import { ElMessage, ElMessageBox } from 'element-plus'
-
 export default {
     data() {
         return {

@@ -24,8 +24,6 @@
         </el-main>
     </el-container>
 </template>
-<style></style>
-
 <script>
 export default {
     data() {
