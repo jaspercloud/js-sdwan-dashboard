@@ -7,7 +7,7 @@
             <el-table-column prop="id" label="序号" width="120" />
             <el-table-column prop="name" label="名称" width="120" />
             <el-table-column prop="description" label="描述" width="120" />
-            <el-table-column prop="destination" label="目标地址" width="120" />
+            <el-table-column prop="destination" label="目标地址" width="180" />
             <el-table-column label="节点列表">
                 <template #default="scope">
                     <div>{{ showNodeList(scope.row) }}</div>
@@ -25,7 +25,8 @@
                 </template>
             </el-table-column>
         </el-table>
-        <el-dialog v-model="dialog.visible" :title="showTitle" width="500" :before-close="dialogHandleClose">
+        <el-dialog v-model="dialog.visible" :title="showTitle" width="500" :before-close="dialogHandleClose"
+            :close-on-click-modal="false">
             <el-form :model="dialog.form" label-position="right" label-width="auto">
                 <el-form-item label="名称">
                     <el-input v-model="dialog.form.name" />
@@ -34,7 +35,7 @@
                     <el-input v-model="dialog.form.description" />
                 </el-form-item>
                 <el-form-item label="目标地址">
-                    <el-input v-model="dialog.form.destination" />
+                    <el-input v-model="dialog.form.destination" placeholder="192.168.1.1/24" />
                 </el-form-item>
                 <el-form-item label="节点列表">
                     <el-select multiple collapse-tags collapse-tags-tooltip v-model="dialog.form.nodeIdList"

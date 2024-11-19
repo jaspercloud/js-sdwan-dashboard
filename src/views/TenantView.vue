@@ -28,7 +28,8 @@
                     </el-card>
                 </div>
             </el-space>
-            <el-dialog v-model="dialog.visible" :title="showTitle" width="500" :before-close="dialogHandleClose">
+            <el-dialog v-model="dialog.visible" :title="showTitle" width="500" :before-close="dialogHandleClose"
+                :close-on-click-modal="false">
                 <el-form :model="dialog.form" label-position="right" label-width="auto">
                     <el-form-item label="名称">
                         <el-input v-model="dialog.form.name" />
@@ -37,22 +38,23 @@
                         <el-input v-model="dialog.form.description" />
                     </el-form-item>
                     <el-form-item label="编码">
-                        <el-input v-model="dialog.form.code" />
+                        <el-input v-model="dialog.form.code" :disabled="dialog.type === 'edit'" />
                     </el-form-item>
                     <el-form-item label="账号">
-                        <el-input v-model="dialog.form.username" />
+                        <el-input v-model="dialog.form.username" :disabled="dialog.type === 'edit'" />
                     </el-form-item>
                     <el-form-item label="密码">
-                        <el-input v-model="dialog.form.password" />
+                        <el-input v-model="dialog.form.password" type="password" />
                     </el-form-item>
                     <el-form-item label="地址池">
-                        <el-input v-model="dialog.form.cidr" placeholder="192.168.1.0/24" />
+                        <el-input v-model="dialog.form.cidr" placeholder="192.168.1.0/24"
+                            :disabled="dialog.type === 'edit'" />
                     </el-form-item>
                     <el-form-item label="stunServer">
-                        <tag-x v-model="dialog.form.stunServerList" />
+                        <tag-x v-model="dialog.form.stunServerList" placeholder="192.168.1.1:8080" />
                     </el-form-item>
                     <el-form-item label="relayServer">
-                        <tag-x v-model="dialog.form.relayServerList" />
+                        <tag-x v-model="dialog.form.relayServerList" placeholder="192.168.1.1:8080" />
                     </el-form-item>
                     <el-form-item label="是否需要认证">
                         <el-switch v-model="dialog.form.nodeGrant" class="switch" />
@@ -66,7 +68,7 @@
                         <el-button type="primary" @click="saveOrUpdate">
                             确定
                         </el-button>
-                        <el-button type="danger" v-if="dialog.type == 'edit'" @click="del(dialog.form)">
+                        <el-button type="danger" v-if="dialog.type === 'edit'" @click="del(dialog.form)">
                             删除
                         </el-button>
                     </div>
@@ -145,11 +147,12 @@ export default {
                 }
             }
         },
-        openEditDialog(row) {
+        async openEditDialog(row) {
+            let { status, data } = await http.get(`/api/tenant/detail/${row.id}`)
             this.dialog = {
                 visible: true,
                 type: "edit",
-                form: JSON.parse(JSON.stringify(row))
+                form: data
             }
         },
         async list() {

@@ -23,7 +23,8 @@
                 </template>
             </el-table-column>
         </el-table>
-        <el-dialog v-model="dialog.visible" :title="showTitle" width="500" :before-close="dialogHandleClose">
+        <el-dialog v-model="dialog.visible" :title="showTitle" width="500" :before-close="dialogHandleClose"
+            :close-on-click-modal="false">
             <el-form :model="dialog.form" label-position="right" label-width="auto">
                 <el-form-item label="名称">
                     <el-input v-model="dialog.form.name" />
@@ -57,7 +58,7 @@
                 </div>
             </template>
         </el-dialog>
-        <el-dialog v-model="nodeDetailDialog.visible" title="节点详情" width="800">
+        <el-dialog v-model="nodeDetailDialog.visible" title="节点详情" width="800" :close-on-click-modal="false">
             <el-scrollbar height="600px">
                 <div class="flex direction-column">
                     <el-descriptions title="基本信息" :column="3" border style="margin-bottom: 20px;">

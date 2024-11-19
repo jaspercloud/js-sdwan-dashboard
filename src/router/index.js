@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import IndexView from '../views/IndexView.vue'
 import TenantView from '../views/TenantView.vue'
 import TenantSpaceView from '../views/TenantSpaceView.vue'
 import NodeView from '../views/NodeView.vue'
@@ -11,6 +12,11 @@ import TestView from '../views/TestView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/',
+      name: 'index',
+      component: IndexView,
+    },
     {
       path: '/tenant',
       name: 'tenant',

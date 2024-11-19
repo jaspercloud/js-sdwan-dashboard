@@ -6,35 +6,46 @@
             </el-tag>
         </div>
         <div>
-            <el-input v-if="inputVisible" ref="inputRef" v-model="inputValue" size="small" class="new-tag"
+            <el-input v-if="inputVisible" ref="inputRef" v-model="inputValue" class="new-tag" :placeholder="place"
                 @keyup.enter="handleInputConfirm" @blur="handleInputConfirm" />
-            <el-button v-else size="small" @click="showInput">新增</el-button>
+            <el-button v-else @click="showInput">新增</el-button>
         </div>
     </div>
 </template>
 <style>
 .new-tag {
-    width: 120px;
+    width: 160px;
 }
 </style>
 <script>
 import { nextTick } from 'vue';
 
 export default {
-    props: ["modelValue"],
+    props: ["modelValue", "placeholder"],
     data() {
         return {
             tags: [],
             inputVisible: false,
             inputRef: null,
-            inputValue: ""
+            inputValue: "",
+            place: ""
         }
     },
     mounted() {
-        this.tags = this.modelValue
+        if (null != this.modelValue) {
+            this.tags = this.modelValue
+        }
+        if (null != this.placeholder) {
+            this.place = this.placeholder
+        }
     },
     updated() {
-        this.tags = this.modelValue
+        if (null != this.modelValue) {
+            this.tags = this.modelValue
+        }
+        if (null != this.placeholder) {
+            this.place = this.placeholder
+        }
     },
     methods: {
         handleClose(tag) {

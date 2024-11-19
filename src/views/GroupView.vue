@@ -21,7 +21,8 @@
                 </template>
             </el-table-column>
         </el-table>
-        <el-dialog v-model="dialog.visible" :title="showTitle" width="500" :before-close="dialogHandleClose">
+        <el-dialog v-model="dialog.visible" :title="showTitle" width="500" :before-close="dialogHandleClose"
+            :close-on-click-modal="false">
             <el-form :model="dialog.form" label-position="right" label-width="auto">
                 <el-form-item label="名称">
                     <el-input v-model="dialog.form.name" />
@@ -38,7 +39,7 @@
                 </div>
             </template>
         </el-dialog>
-        <el-dialog v-model="memberDialog.visible" title="成员管理" width="500">
+        <el-dialog v-model="memberDialog.visible" title="成员管理" width="500" :close-on-click-modal="false">
             <el-form :model="memberDialog.form" label-position="right" label-width="auto">
                 <el-form-item label="成员列表">
                     <el-select multiple collapse-tags collapse-tags-tooltip v-model="memberDialog.form.selectList"

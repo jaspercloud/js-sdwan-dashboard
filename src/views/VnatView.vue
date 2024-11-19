@@ -21,7 +21,8 @@
                 </template>
             </el-table-column>
         </el-table>
-        <el-dialog v-model="dialog.visible" :title="showTitle" width="500" :before-close="dialogHandleClose">
+        <el-dialog v-model="dialog.visible" :title="showTitle" width="500" :before-close="dialogHandleClose"
+            :close-on-click-modal="false">
             <el-form :model="dialog.form" label-position="right" label-width="auto">
                 <el-form-item label="名称">
                     <el-input v-model="dialog.form.name" />
@@ -29,11 +30,11 @@
                 <el-form-item label="描述">
                     <el-input v-model="dialog.form.description" />
                 </el-form-item>
-                <el-form-item label="源地址">
-                    <el-input v-model="dialog.form.srcCidr" />
+                <el-form-item label="源地址池">
+                    <el-input v-model="dialog.form.srcCidr" placeholder="192.168.1.1/24" />
                 </el-form-item>
-                <el-form-item label="目标地址">
-                    <el-input v-model="dialog.form.dstCidr" />
+                <el-form-item label="目标地址池">
+                    <el-input v-model="dialog.form.dstCidr" placeholder="192.168.1.1/24" />
                 </el-form-item>
                 <el-form-item label="分组列表">
                     <el-select multiple collapse-tags collapse-tags-tooltip v-model="dialog.form.groupIdList"

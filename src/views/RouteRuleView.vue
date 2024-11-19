@@ -30,7 +30,8 @@
                 </template>
             </el-table-column>
         </el-table>
-        <el-dialog v-model="dialog.visible" :title="showTitle" width="500" :before-close="dialogHandleClose">
+        <el-dialog v-model="dialog.visible" :title="showTitle" width="500" :before-close="dialogHandleClose"
+            :close-on-click-modal="false">
             <el-form :model="dialog.form" label-position="right" label-width="auto">
                 <el-form-item label="名称">
                     <el-input v-model="dialog.form.name" />
@@ -45,7 +46,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="规则">
-                    <tag-x v-model="dialog.form.ruleList"></tag-x>
+                    <tag-x v-model="dialog.form.ruleList" placeholder="192.168.1.1/24"></tag-x>
                 </el-form-item>
                 <el-form-item label="分组列表">
                     <el-select multiple collapse-tags collapse-tags-tooltip v-model="dialog.form.groupIdList"

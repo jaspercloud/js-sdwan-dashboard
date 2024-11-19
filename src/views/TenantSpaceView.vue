@@ -42,8 +42,8 @@ export default {
         let tenantId = this.$route.query.tenantId
         if (null != tenantId) {
             sessionStorage.setItem("tenantId", tenantId)
+            this.$router.replace("/tenantSpace")
         }
-        this.$router.replace("/tenantSpace")
     }
 };
 </script>
