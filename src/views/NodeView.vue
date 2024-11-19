@@ -12,7 +12,8 @@
             <el-table-column prop="mac" label="物理地址" />
             <el-table-column prop="online" label="在线状态">
                 <template #default="scope">
-                    {{ showOnlineStatus(scope.row) }}
+                    <div v-if="scope.row.online" style="display: inline-block;color:#13ce66;">在线</div>
+                    <div v-else style="display: inline-block;color:#f56c6c;">离线</div>
                 </template>
             </el-table-column>
             <el-table-column label="是否启用" width="120">
@@ -70,7 +71,10 @@
                         <el-descriptions-item label="名称">{{ nodeDetailDialog.form.name }}</el-descriptions-item>
                         <el-descriptions-item label="描述">{{ nodeDetailDialog.form.description }}</el-descriptions-item>
                         <el-descriptions-item label="在线状态">
-                            {{ showOnlineStatus(nodeDetailDialog.form) }}
+                            <div v-if="nodeDetailDialog.form.online" style="display: inline-block;color:#13ce66;">
+                                在线
+                            </div>
+                            <div v-else style="display: inline-block;color:#f56c6c;">离线</div>
                         </el-descriptions-item>
                         <el-descriptions-item label="分配地址">{{ nodeDetailDialog.form.vip }}</el-descriptions-item>
                         <el-descriptions-item label="公网地址">{{ nodeDetailDialog.form.ip }}</el-descriptions-item>
@@ -251,9 +255,6 @@ export default {
                 this.dialog.visible = false
                 await this.list()
             })
-        },
-        showOnlineStatus(row) {
-            return row.online ? "在线" : "不在线"
         }
     }
 }

@@ -14,7 +14,10 @@
                             </div>
                         </template>
                         <el-descriptions :column="2">
-                            <el-descriptions-item label="状态">{{ item.enable ? '启用' : '禁用' }}</el-descriptions-item>
+                            <el-descriptions-item label="状态">
+                                <div v-if="item.enable" style="display: inline-block;color:#13ce66;">启用</div>
+                                <div v-else style="display: inline-block;color:#f56c6c;">禁用</div>
+                            </el-descriptions-item>
                             <el-descriptions-item label="是否需要认证">
                                 {{ item.nodeGrant ? '需认证' : '无认证' }}
                             </el-descriptions-item>
@@ -96,8 +99,8 @@
 </style>
 <script>
 import { ElMessageBox } from 'element-plus';
-import TagX from '../components/TagX.vue';
 import http from '../api';
+import TagX from '../components/TagX.vue';
 
 export default {
     components: {
