@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import IndexView from '../views/IndexView.vue'
-import DownloadView from '../views/DownloadView.vue'
+import AccountView from '../views/AccountView.vue'
 import RootSpaceView from '../views/RootSpaceView.vue'
 import TenantView from '../views/TenantView.vue'
 import AppVersionView from '../views/AppVersionView.vue'
@@ -21,9 +21,9 @@ const router = createRouter({
       component: IndexView,
     },
     {
-      path: '/download',
-      name: 'download',
-      component: DownloadView,
+      path: '/account',
+      name: 'account',
+      component: AccountView,
     },
     {
       path: '/rootSpace',

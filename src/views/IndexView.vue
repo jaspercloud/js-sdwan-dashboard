@@ -1,41 +1,91 @@
 <template>
-    <div class="flex flex-item justify-center align-center" style="height: 100%;">
-        <el-card style="width: 480px;padding: 50px;">
-            <el-form :model="form" label-width="auto" label-position="top">
-                <el-form-item label="账号">
-                    <el-input v-model="form.username" size="large" />
-                </el-form-item>
-                <el-form-item label="密码">
-                    <el-input v-model="form.password" type="password" size="large" />
-                </el-form-item>
-            </el-form>
-            <el-button type="primary" style="width: 100%;margin-top: 50px;" size="large" @click="login">登录</el-button>
-        </el-card>
+    <div class="bg">
+        <div class="layer1 flex direction-row-reverse">
+            <div class="btn-group" style="margin-top: 20px;margin-right: 20px;">
+                <a class="manage-btn" href="/#/account">
+                    <div>后端管理</div>
+                </a>
+            </div>
+        </div>
+        <div class="layer2">
+            <div class="main">
+                <div>
+                    <img src="../../public/banner.png" style="height: 180px;">
+                    <div class="btn-group" style="margin-top: 100px;margin-left: 400px;">
+                        <a class="download-btn" :href="`/api/storage/${data.windows}`">
+                            <div>Windows下载</div>
+                        </a>
+                        <a class="download-btn" :href="`/api/storage/${data.osx}`">
+                            <div>MacOS下载</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 <script>
 import http from '../api';
-import cookie from 'js-cookie'
 export default {
     data() {
         return {
-            form: {
-                username: "",
-                password: ""
-            }
+            data: {}
         }
     },
-    methods: {
-        async login() {
-            let { status, data } = await http.post(`/api/account/login`, this.form)
-            cookie.set("Access-Token", data.accessToken)
-            if (null == data.tenantId) {
-                this.$router.replace("/rootSpace")
-            } else {
-                sessionStorage.setItem("tenantId", data.tenantId)
-                this.$router.replace("/tenantSpace")
-            }
-        }
+    async mounted() {
+        let { status, data } = await http.get(`/api/appVersion/lastVersion`)
+        this.data = data
     }
 }
 </script>
+<style>
+.bg {
+    background-image: url("../../public/download-bg.png");
+    width: 100%;
+    height: 100%;
+}
+
+.layer1 {}
+
+.layer2 {
+    margin-top: 15%;
+    display: flex;
+    align-items: center;
+}
+
+.main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-group {
+    margin-left: 150px;
+    display: flex;
+}
+
+.manage-btn {
+    background-color: rgb(63, 105, 246);
+    color: rgb(255, 255, 255);
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 40px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.download-btn {
+    background-color: rgb(63, 105, 246);
+    color: rgb(255, 255, 255);
+    width: 180px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 60px;
+    font-size: 16px;
+    font-weight: bolder;
+    text-align: center;
+    margin: 0px 20px;
+    text-decoration: none;
+}
+</style>
