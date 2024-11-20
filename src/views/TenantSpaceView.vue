@@ -45,7 +45,7 @@ export default {
             sessionStorage.setItem("tenantId", tenantId)
             this.$router.replace("/tenantSpace")
         }
-        let { status, data } = await http.get(`/api/tenant/detail/current`)
+        let { status, data } = await http.get(`/api/tenant/current`)
         this.tenant = data
     }
 };
