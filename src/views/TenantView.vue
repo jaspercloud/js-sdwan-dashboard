@@ -1,86 +1,84 @@
 <template>
-    <div style="padding: 20px;">
-        <div class="header flex">
+    <div class="flex direction-column">
+        <div>
             <el-button type="primary" @click="openAddDialog">新增</el-button>
+            <el-button type="primary" @click="list">刷新</el-button>
         </div>
-        <div style="margin-top: 20px;">
-            <el-space wrap>
-                <div v-for="item in tableData" :key="item.id">
-                    <el-card style="width: 350px;">
-                        <template #header>
-                            <div class="flex">
-                                <div class="flex-item">{{ item.name }}</div>
-                                <el-button link type="primary" @click="openEditDialog(item)">编辑</el-button>
-                            </div>
-                        </template>
-                        <el-descriptions :column="2">
-                            <el-descriptions-item label="状态">
-                                <div v-if="item.enable" style="display: inline-block;color:#13ce66;">启用</div>
-                                <div v-else style="display: inline-block;color:#f56c6c;">禁用</div>
-                            </el-descriptions-item>
-                            <el-descriptions-item label="是否需要认证">
-                                {{ item.nodeGrant ? '需认证' : '无认证' }}
-                            </el-descriptions-item>
-                            <el-descriptions-item label="地址池">{{ item.cidr }}</el-descriptions-item>
-                            <el-descriptions-item label="编码">{{ item.code }}</el-descriptions-item>
-                            <el-descriptions-item label="在线数">{{ item.onlineNode }}</el-descriptions-item>
-                            <el-descriptions-item label="总数">{{ item.totalNode }}</el-descriptions-item>
-                            <el-descriptions-item label="描述">{{ item.description }}</el-descriptions-item>
-                        </el-descriptions>
-                        <div class="flex flex-item">
-                            <el-button style="width: 100%;" type="primary" @click="enter(item)">进入</el-button>
+        <el-space wrap style="margin-top: 20px;">
+            <div v-for="item in tableData" :key="item.id">
+                <el-card style="width: 350px;">
+                    <template #header>
+                        <div class="flex">
+                            <div class="flex-item">{{ item.name }}</div>
+                            <el-button link type="primary" @click="openEditDialog(item)">编辑</el-button>
                         </div>
-                    </el-card>
-                </div>
-            </el-space>
-            <el-dialog v-model="dialog.visible" :title="showTitle" width="500" :before-close="dialogHandleClose"
-                :close-on-click-modal="false">
-                <el-form :model="dialog.form" label-position="right" label-width="auto">
-                    <el-form-item label="名称">
-                        <el-input v-model="dialog.form.name" />
-                    </el-form-item>
-                    <el-form-item label="描述">
-                        <el-input v-model="dialog.form.description" />
-                    </el-form-item>
-                    <el-form-item label="编码">
-                        <el-input v-model="dialog.form.code" :disabled="dialog.type === 'edit'" />
-                    </el-form-item>
-                    <el-form-item label="账号">
-                        <el-input v-model="dialog.form.username" :disabled="dialog.type === 'edit'"
-                            autocomplete="off" />
-                    </el-form-item>
-                    <el-form-item label="密码">
-                        <el-input v-model="dialog.form.password" type="password" autocomplete="new-password" />
-                    </el-form-item>
-                    <el-form-item label="地址池">
-                        <el-input v-model="dialog.form.cidr" placeholder="192.168.1.0/24"
-                            :disabled="dialog.type === 'edit'" />
-                    </el-form-item>
-                    <el-form-item label="stunServer">
-                        <tag-x v-model="dialog.form.stunServerList" placeholder="192.168.1.1:8080" />
-                    </el-form-item>
-                    <el-form-item label="relayServer">
-                        <tag-x v-model="dialog.form.relayServerList" placeholder="192.168.1.1:8080" />
-                    </el-form-item>
-                    <el-form-item label="是否需要认证">
-                        <el-switch v-model="dialog.form.nodeGrant" class="switch" />
-                    </el-form-item>
-                    <el-form-item label="是否启用">
-                        <el-switch v-model="dialog.form.enable" class="switch" />
-                    </el-form-item>
-                </el-form>
-                <template #footer>
-                    <div class="footer flex direction-column">
-                        <el-button type="primary" @click="saveOrUpdate">
-                            确定
-                        </el-button>
-                        <el-button type="danger" v-if="dialog.type === 'edit'" @click="del(dialog.form)">
-                            删除
-                        </el-button>
+                    </template>
+                    <el-descriptions :column="2">
+                        <el-descriptions-item label="状态">
+                            <div v-if="item.enable" style="display: inline-block;color:#13ce66;">启用</div>
+                            <div v-else style="display: inline-block;color:#f56c6c;">禁用</div>
+                        </el-descriptions-item>
+                        <el-descriptions-item label="是否需要认证">
+                            {{ item.nodeGrant ? '需认证' : '无认证' }}
+                        </el-descriptions-item>
+                        <el-descriptions-item label="地址池">{{ item.cidr }}</el-descriptions-item>
+                        <el-descriptions-item label="编码">{{ item.code }}</el-descriptions-item>
+                        <el-descriptions-item label="在线数">{{ item.onlineNode }}</el-descriptions-item>
+                        <el-descriptions-item label="总数">{{ item.totalNode }}</el-descriptions-item>
+                        <el-descriptions-item label="描述">{{ item.description }}</el-descriptions-item>
+                    </el-descriptions>
+                    <div class="flex flex-item">
+                        <el-button style="width: 100%;" type="primary" @click="enter(item)">进入</el-button>
                     </div>
-                </template>
-            </el-dialog>
-        </div>
+                </el-card>
+            </div>
+        </el-space>
+        <el-dialog v-model="dialog.visible" :title="showTitle" width="500" :before-close="dialogHandleClose"
+            :close-on-click-modal="false">
+            <el-form :model="dialog.form" label-position="right" label-width="auto">
+                <el-form-item label="名称">
+                    <el-input v-model="dialog.form.name" />
+                </el-form-item>
+                <el-form-item label="描述">
+                    <el-input v-model="dialog.form.description" />
+                </el-form-item>
+                <el-form-item label="编码">
+                    <el-input v-model="dialog.form.code" :disabled="dialog.type === 'edit'" />
+                </el-form-item>
+                <el-form-item label="账号">
+                    <el-input v-model="dialog.form.username" :disabled="dialog.type === 'edit'" autocomplete="off" />
+                </el-form-item>
+                <el-form-item label="密码">
+                    <el-input v-model="dialog.form.password" type="password" autocomplete="new-password" />
+                </el-form-item>
+                <el-form-item label="地址池">
+                    <el-input v-model="dialog.form.cidr" placeholder="192.168.1.0/24"
+                        :disabled="dialog.type === 'edit'" />
+                </el-form-item>
+                <el-form-item label="stunServer">
+                    <tag-x v-model="dialog.form.stunServerList" placeholder="192.168.1.1:8080" />
+                </el-form-item>
+                <el-form-item label="relayServer">
+                    <tag-x v-model="dialog.form.relayServerList" placeholder="192.168.1.1:8080" />
+                </el-form-item>
+                <el-form-item label="是否需要认证">
+                    <el-switch v-model="dialog.form.nodeGrant" class="switch" />
+                </el-form-item>
+                <el-form-item label="是否启用">
+                    <el-switch v-model="dialog.form.enable" class="switch" />
+                </el-form-item>
+            </el-form>
+            <template #footer>
+                <div class="footer flex direction-column">
+                    <el-button type="primary" @click="saveOrUpdate">
+                        确定
+                    </el-button>
+                    <el-button type="danger" v-if="dialog.type === 'edit'" @click="del(dialog.form)">
+                        删除
+                    </el-button>
+                </div>
+            </template>
+        </el-dialog>
     </div>
 </template>
 <style>

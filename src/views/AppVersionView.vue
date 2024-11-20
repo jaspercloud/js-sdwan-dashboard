@@ -1,65 +1,64 @@
 <template>
-    <div style="padding: 20px;">
-        <div class="header flex">
+    <div class="flex direction-column">
+        <div>
             <el-button type="primary" @click="openAddDialog">新增</el-button>
+            <el-button type="primary" @click="list">刷新</el-button>
         </div>
-        <div style="margin-top: 20px;">
-            <el-table :data="tableData" stripe style="height: 100%;" max-height="auto">
-                <el-table-column prop="id" label="序号" width="120" />
-                <el-table-column prop="name" label="名称" />
-                <el-table-column prop="description" label="描述" />
-                <el-table-column prop="path" label="文件名" />
-                <el-table-column prop="os" label="操作系统">
-                    <template #default="scope">
-                        <span v-if="scope.row.os === 'windows'">Windows</span>
-                        <span v-if="scope.row.os === 'osx'">MacOS</span>
-                    </template>
-                </el-table-column>
-                <el-table-column label="创建时间">
-                    <template #default="scope">
-                        {{ formatDate(scope.row.createTime) }}
-                    </template>
-                </el-table-column>
-                <el-table-column label="操作" fixed="right" width="300">
-                    <template #default="scope">
-                        <el-button link type="primary" size="small" @click="download(scope.row)">下载</el-button>
-                        <el-button link type="danger" size="small" @click="del(scope.row)">删除</el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <el-dialog v-model="dialog.visible" :title="showTitle" width="500" :before-close="dialogHandleClose"
-                :close-on-click-modal="false">
-                <el-form :model="dialog.form" label-position="right" label-width="auto">
-                    <el-form-item label="上传文件">
-                        <el-upload ref="uploadRef" action="/api/file/upload" :auto-upload="false" :limit="1"
-                            :on-exceed="handleExceed" :on-success="handleUploadSuccess">
-                            <template #trigger>
-                                <el-button type="primary">请选择文件</el-button>
-                            </template>
-                        </el-upload>
-                    </el-form-item>
-                    <el-form-item label="名称">
-                        <el-input v-model="dialog.form.name" />
-                    </el-form-item>
-                    <el-form-item label="描述">
-                        <el-input v-model="dialog.form.description" />
-                    </el-form-item>
-                    <el-form-item label="操作系统">
-                        <el-checkbox-group v-model="dialog.form.osList">
-                            <el-checkbox label="Windows" value="windows" />
-                            <el-checkbox label="MacOS" value="osx" />
-                        </el-checkbox-group>
-                    </el-form-item>
-                </el-form>
-                <template #footer>
-                    <div class="footer flex direction-column">
-                        <el-button type="primary" @click="submitUpload">
-                            确定
-                        </el-button>
-                    </div>
+        <el-table :data="tableData" stripe style="height: 100%;" max-height="auto">
+            <el-table-column prop="id" label="序号" width="120" />
+            <el-table-column prop="name" label="名称" />
+            <el-table-column prop="description" label="描述" />
+            <el-table-column prop="path" label="文件名" />
+            <el-table-column prop="os" label="操作系统">
+                <template #default="scope">
+                    <span v-if="scope.row.os === 'windows'">Windows</span>
+                    <span v-if="scope.row.os === 'osx'">MacOS</span>
                 </template>
-            </el-dialog>
-        </div>
+            </el-table-column>
+            <el-table-column label="创建时间">
+                <template #default="scope">
+                    {{ formatDate(scope.row.createTime) }}
+                </template>
+            </el-table-column>
+            <el-table-column label="操作" fixed="right" width="300">
+                <template #default="scope">
+                    <el-button link type="primary" size="small" @click="download(scope.row)">下载</el-button>
+                    <el-button link type="danger" size="small" @click="del(scope.row)">删除</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <el-dialog v-model="dialog.visible" :title="showTitle" width="500" :before-close="dialogHandleClose"
+            :close-on-click-modal="false">
+            <el-form :model="dialog.form" label-position="right" label-width="auto">
+                <el-form-item label="上传文件">
+                    <el-upload ref="uploadRef" action="/api/file/upload" :auto-upload="false" :limit="1"
+                        :on-exceed="handleExceed" :on-success="handleUploadSuccess">
+                        <template #trigger>
+                            <el-button type="primary">请选择文件</el-button>
+                        </template>
+                    </el-upload>
+                </el-form-item>
+                <el-form-item label="名称">
+                    <el-input v-model="dialog.form.name" />
+                </el-form-item>
+                <el-form-item label="描述">
+                    <el-input v-model="dialog.form.description" />
+                </el-form-item>
+                <el-form-item label="操作系统">
+                    <el-checkbox-group v-model="dialog.form.osList">
+                        <el-checkbox label="Windows" value="windows" />
+                        <el-checkbox label="MacOS" value="osx" />
+                    </el-checkbox-group>
+                </el-form-item>
+            </el-form>
+            <template #footer>
+                <div class="footer flex direction-column">
+                    <el-button type="primary" @click="submitUpload">
+                        确定
+                    </el-button>
+                </div>
+            </template>
+        </el-dialog>
     </div>
 </template>
 <style>
