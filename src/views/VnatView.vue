@@ -5,8 +5,8 @@
             <el-button type="primary" @click="list">刷新</el-button>
         </div>
         <el-table :data="tableData" stripe style="height: 100%;" max-height="auto">
-            <el-table-column prop="id" label="序号" width="120" />
-            <el-table-column prop="name" label="名称" width="120" />
+            <el-table-column prop="id" label="序号" width="120" show-overflow-tooltip />
+            <el-table-column prop="name" label="名称" width="120" show-overflow-tooltip />
             <el-table-column prop="description" label="描述" width="120" />
             <el-table-column prop="srcCidr" label="源地址" />
             <el-table-column prop="dstCidr" label="目标地址" />

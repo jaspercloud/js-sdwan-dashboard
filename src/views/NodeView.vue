@@ -6,8 +6,8 @@
         </div>
         <el-table :data="tableData" stripe style="height: 100%;" max-height="auto">
             <el-table-column prop="id" label="序号" width="120" />
-            <el-table-column prop="name" label="名称" />
-            <el-table-column prop="description" label="描述" />
+            <el-table-column prop="name" label="名称" show-overflow-tooltip />
+            <el-table-column prop="description" label="描述" show-overflow-tooltip />
             <el-table-column prop="vip" label="分配地址" />
             <el-table-column prop="ip" label="公网地址" />
             <el-table-column prop="mac" label="物理地址" />

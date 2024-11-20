@@ -6,8 +6,8 @@
         </div>
         <el-table :data="tableData" stripe style="height: 100%;" max-height="auto">
             <el-table-column prop="id" label="序号" width="120" />
-            <el-table-column prop="name" label="名称" width="120" />
-            <el-table-column prop="description" label="描述" width="120" />
+            <el-table-column prop="name" label="名称" width="120" show-overflow-tooltip />
+            <el-table-column prop="description" label="描述" width="120" show-overflow-tooltip />
             <el-table-column prop="destination" label="目标地址" width="180" />
             <el-table-column label="节点列表">
                 <template #default="scope">
