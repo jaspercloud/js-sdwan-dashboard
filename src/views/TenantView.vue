@@ -9,7 +9,7 @@
                 <el-card style="width: 350px;">
                     <template #header>
                         <div class="flex">
-                            <div class="flex-item">{{ item.name }}</div>
+                            <div class="flex-item" style="font-weight: bold;">{{ item.name }}</div>
                             <el-button link type="primary" @click="openEditDialog(item)">编辑</el-button>
                         </div>
                     </template>

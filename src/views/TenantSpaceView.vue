@@ -1,7 +1,8 @@
 <template>
     <el-container style="height: 100%;">
-        <el-aside style="height: 100%;">
-            <el-menu :default-active="onRoutes" style="height: 100%;" router="true">
+        <el-aside style="height: 100%;" class="flex direction-column">
+            <h3 style="margin-left: 20px">{{ tenant.name }}</h3>
+            <el-menu :default-active="onRoutes" router="true" class="flex-item">
                 <el-menu-item index="/tenantSpace/node">
                     <span>节点管理</span>
                 </el-menu-item>
@@ -25,10 +26,12 @@
     </el-container>
 </template>
 <script>
+import http from '../api';
 export default {
     data() {
         return {
-            onRoutes: this.$route.path
+            onRoutes: this.$route.path,
+            tenant: {}
         };
     },
     watch: {
@@ -36,12 +39,14 @@ export default {
             this.onRoutes = to.path;
         },
     },
-    mounted() {
+    async mounted() {
         let tenantId = this.$route.query.tenantId
         if (null != tenantId) {
             sessionStorage.setItem("tenantId", tenantId)
             this.$router.replace("/tenantSpace")
         }
+        let { status, data } = await http.get(`/api/tenant/detail/current`)
+        this.tenant = data
     }
 };
 </script>
