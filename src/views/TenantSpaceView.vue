@@ -22,7 +22,7 @@
                         <span>分组管理</span>
                     </el-menu-item>
                 </el-menu>
-                <el-button size="large">退出</el-button>
+                <el-button size="large" @click="exit">退出</el-button>
             </el-aside>
             <el-main>
                 <RouterView class="flex-item" style="height: 100%;" />
@@ -52,6 +52,11 @@ export default {
         }
         let { status, data } = await http.get(`/api/tenant/current`)
         this.tenant = data
+    },
+    methods: {
+        exit() {
+            this.$router.replace("/")
+        }
     }
 };
 </script>

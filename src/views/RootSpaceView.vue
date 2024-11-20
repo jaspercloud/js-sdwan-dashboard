@@ -13,7 +13,7 @@
                         <span>客户端管理</span>
                     </el-menu-item>
                 </el-menu>
-                <el-button size="large">退出</el-button>
+                <el-button size="large" @click="exit">退出</el-button>
             </el-aside>
             <el-main>
                 <RouterView class="flex-item" style="height: 100%;" />
@@ -34,6 +34,11 @@ export default {
         },
     },
     mounted() {
+    },
+    methods: {
+        exit() {
+            this.$router.replace("/")
+        }
     }
 };
 </script>
