@@ -88,6 +88,22 @@
                             {{ nodeDetailDialog.form.description }}
                         </el-descriptions-item>
                     </el-descriptions>
+                    <el-descriptions title="节点列表">
+                        <el-descriptions-item>
+                            <el-table :data="nodeDetailDialog.form.nodeList">
+                                <el-table-column prop="name" label="名称" />
+                                <el-table-column prop="mac" label="物理地址" />
+                                <el-table-column prop="vip" label="分配地址" />
+                                <el-table-column prop="online" label="在线状态">
+                                    <template #default="scope">
+                                        <div v-if="scope.row.online" style="display: inline-block;color:#13ce66;">在线
+                                        </div>
+                                        <div v-else style="display: inline-block;color:#f56c6c;">离线</div>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </el-descriptions-item>
+                    </el-descriptions>
                     <el-descriptions title="路由">
                         <el-descriptions-item>
                             <el-table :data="nodeDetailDialog.form.routeList">
