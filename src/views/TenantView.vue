@@ -1,7 +1,7 @@
 <template>
     <div style="padding: 20px;">
-        <div class="header flex direction-row-reverse">
-            <el-button type="primary" size="large" @click="openAddDialog">新增</el-button>
+        <div class="header flex">
+            <el-button type="primary" @click="openAddDialog">新增</el-button>
         </div>
         <div style="margin-top: 20px;">
             <el-space wrap>
@@ -102,7 +102,6 @@
 import { ElMessageBox } from 'element-plus';
 import http from '../api';
 import TagX from '../components/TagX.vue';
-
 export default {
     components: {
         "tag-x": TagX

@@ -30,7 +30,7 @@ export default {
             let { status, data } = await http.post(`/api/account/login`, this.form)
             cookie.set("Access-Token", data.accessToken)
             if (null == data.tenantId) {
-                this.$router.replace("/tenant")
+                this.$router.replace("/rootSpace")
             } else {
                 sessionStorage.setItem("tenantId", data.tenantId)
                 this.$router.replace("/tenantSpace")

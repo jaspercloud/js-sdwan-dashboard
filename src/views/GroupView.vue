@@ -17,7 +17,7 @@
                 <template #default="scope">
                     <el-button link type="primary" size="small" @click="members(scope.row.id)">成员管理</el-button>
                     <el-button link type="primary" size="small" @click="openEditDialog(scope.row)">编辑</el-button>
-                    <el-button v-if="!scope.row.defaultGroup" link type="primary" size="small"
+                    <el-button v-if="!scope.row.defaultGroup" link type="danger" size="small"
                         @click="del(scope.row)">删除</el-button>
                 </template>
             </el-table-column>

@@ -1,7 +1,9 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import IndexView from '../views/IndexView.vue'
 import DownloadView from '../views/DownloadView.vue'
+import RootSpaceView from '../views/RootSpaceView.vue'
 import TenantView from '../views/TenantView.vue'
+import AppVersionView from '../views/AppVersionView.vue'
 import TenantSpaceView from '../views/TenantSpaceView.vue'
 import NodeView from '../views/NodeView.vue'
 import RouteView from '../views/RouteView.vue'
@@ -24,9 +26,22 @@ const router = createRouter({
       component: DownloadView,
     },
     {
-      path: '/tenant',
-      name: 'tenant',
-      component: TenantView,
+      path: '/rootSpace',
+      name: 'rootSpace',
+      component: RootSpaceView,
+      redirect: "/rootSpace/tenant",
+      children: [
+        {
+          path: '/rootSpace/tenant',
+          name: 'tenant',
+          component: TenantView,
+        },
+        {
+          path: '/rootSpace/appVersion',
+          name: 'appVersion',
+          component: AppVersionView,
+        }
+      ]
     },
     {
       path: '/tenantSpace',
