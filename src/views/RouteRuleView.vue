@@ -8,12 +8,20 @@
             <el-table-column prop="id" label="序号" width="120" />
             <el-table-column prop="name" label="名称" width="120" />
             <el-table-column prop="description" label="描述" width="120" />
+            <el-table-column label="策略" width="120">
+                <template #default="scope">
+                    <span v-if="scope.row.strategy === 'Allow'">允许</span>
+                    <span v-if="scope.row.strategy === 'Reject'">拒绝</span>
+                </template>
+            </el-table-column>
             <el-table-column prop="direction" label="方向" width="120">
                 <template #default="scope">
                     <span v-if="scope.row.direction === 'Input'">入口</span>
                     <span v-if="scope.row.direction === 'Output'">出口</span>
+                    <span v-if="scope.row.direction === 'All'">全部</span>
                 </template>
             </el-table-column>
+            <el-table-column prop="level" label="优先级" width="120" />
             <el-table-column label="规则">
                 <template #default="scope">
                     {{ scope.row.ruleList.join(", ") }}
@@ -40,6 +48,12 @@
                 <el-form-item label="描述">
                     <el-input v-model="dialog.form.description" />
                 </el-form-item>
+                <el-form-item label="策略">
+                    <el-select v-model="dialog.form.strategy" placeholder="请选择">
+                        <el-option v-for="item in strategyOptions" :key="item.value" :label="item.label"
+                            :value="item.value" />
+                    </el-select>
+                </el-form-item>
                 <el-form-item label="方向">
                     <el-select v-model="dialog.form.direction" placeholder="请选择">
                         <el-option v-for="item in directionOptions" :key="item.value" :label="item.label"
@@ -55,6 +69,12 @@
                         <el-option v-for="item in dialog.groupList" :key="item.id" :label="item.name"
                             :value="item.id" />
                     </el-select>
+                </el-form-item>
+                <el-form-item label="优先级">
+                    <div class="flex direction-column flex-item">
+                        <el-input v-model="dialog.form.level" type="number" />
+                        <span>数值越小，优先级越高</span>
+                    </div>
                 </el-form-item>
                 <el-form-item label="是否启用">
                     <el-switch v-model="dialog.form.enable" class="switch" />
@@ -92,7 +112,21 @@ export default {
                 title: "",
                 form: {}
             },
+            strategyOptions: [
+                {
+                    "label": "允许",
+                    "value": "Allow"
+                },
+                {
+                    "label": "拒绝",
+                    "value": "Reject"
+                }
+            ],
             directionOptions: [
+                {
+                    "label": "全部",
+                    "value": "All"
+                },
                 {
                     "label": "入口",
                     "value": "Input"

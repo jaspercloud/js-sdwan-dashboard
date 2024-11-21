@@ -8,8 +8,13 @@
             <el-table-column prop="id" label="序号" width="120" show-overflow-tooltip />
             <el-table-column prop="name" label="名称" width="120" show-overflow-tooltip />
             <el-table-column prop="description" label="描述" width="120" />
-            <el-table-column prop="srcCidr" label="源地址" />
-            <el-table-column prop="dstCidr" label="目标地址" />
+            <el-table-column prop="srcCidr" label="源地址" width="120" />
+            <el-table-column prop="dstCidr" label="目标地址" width="120" />
+            <el-table-column label="节点列表">
+                <template #default="scope">
+                    <div>{{ showNodeList(scope.row) }}</div>
+                </template>
+            </el-table-column>
             <el-table-column label="是否启用" width="120">
                 <template #default="scope">
                     <el-switch v-model="scope.row.enable" disabled class="switch" />
@@ -36,6 +41,12 @@
                 </el-form-item>
                 <el-form-item label="目标地址池">
                     <el-input v-model="dialog.form.dstCidr" placeholder="192.168.1.1/24" />
+                </el-form-item>
+                <el-form-item label="节点列表">
+                    <el-select multiple collapse-tags collapse-tags-tooltip v-model="dialog.form.nodeIdList"
+                        placeholder="请选择">
+                        <el-option v-for="item in dialog.nodeList" :key="item.id" :label="item.name" :value="item.id" />
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="应用到分组">
                     <el-select multiple collapse-tags collapse-tags-tooltip v-model="dialog.form.groupIdList"
@@ -102,16 +113,19 @@ export default {
             done()
         },
         async openAddDialog() {
+            let { status: nodeStatus, data: nodeData } = await http.get(`/api/node/list`)
             let { status: groupStatus, data: groupData } = await http.get(`/api/group/list`)
             this.dialog = {
                 visible: true,
                 type: "add",
+                nodeList: nodeData,
                 groupList: groupData,
                 form: {
                     name: "",
                     description: "",
                     srcCidr: "",
                     dstCidr: "",
+                    nodeIdList: [],
                     groupIdList: [],
                     enable: true
                 }
@@ -119,12 +133,27 @@ export default {
         },
         async openEditDialog(row) {
             let { status, data } = await http.get(`/api/vnat/detail/${row.id}`)
+            let { status: nodeStatus, data: nodeData } = await http.get(`/api/node/list`)
             let { status: groupStatus, data: groupData } = await http.get(`/api/group/list`)
+            let nodeIdList = []
+            data.nodeList.forEach(e => {
+                nodeIdList.push(e.id)
+            })
             this.dialog = {
                 visible: true,
                 type: "edit",
+                nodeList: nodeData,
                 groupList: groupData,
-                form: data
+                form: {
+                    id: data.id,
+                    name: data.name,
+                    description: data.description,
+                    srcCidr: data.srcCidr,
+                    dstCidr: data.dstCidr,
+                    nodeIdList: nodeIdList,
+                    groupIdList: data.groupIdList,
+                    enable: data.enable
+                }
             }
         },
         async list() {
@@ -167,6 +196,17 @@ export default {
                 this.dialog.visible = false
                 await this.list()
             })
+        },
+        showNodeList(row) {
+            let list = []
+            row.nodeList.forEach(e => {
+                let label = e.name
+                if (null == label) {
+                    label = e.mac
+                }
+                list.push(label)
+            });
+            return list.join(", ")
         }
     }
 }
