@@ -18,7 +18,7 @@
                         <a class="download-btn" v-else>
                             <div>Windows 敬请期待</div>
                         </a>
-                        <a class="download-btn" v-if="null != data.osx" :href="`/api/storage/${data.osx}`">
+                        <a class="download-btn" v-if="null != data.macos" :href="`/api/storage/${data.macos}`">
                             <div>MacOS 下载</div>
                         </a>
                         <a class="download-btn" v-else>

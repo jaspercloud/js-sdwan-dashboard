@@ -13,7 +13,7 @@
             <el-table-column prop="platform" label="平台">
                 <template #default="scope">
                     <span v-if="scope.row.platform === 'windows'">Windows</span>
-                    <span v-if="scope.row.platform === 'osx'">MacOS</span>
+                    <span v-if="scope.row.platform === 'macos'">MacOS</span>
                 </template>
             </el-table-column>
             <el-table-column label="创建时间">
@@ -48,7 +48,7 @@
                 <el-form-item label="操作系统">
                     <el-checkbox-group v-model="dialog.form.platformList">
                         <el-checkbox label="Windows" value="windows" />
-                        <el-checkbox label="MacOS" value="osx" />
+                        <el-checkbox label="MacOS" value="macos" />
                     </el-checkbox-group>
                 </el-form-item>
             </el-form>
