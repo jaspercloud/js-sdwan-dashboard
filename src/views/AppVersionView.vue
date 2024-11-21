@@ -9,10 +9,11 @@
             <el-table-column prop="name" label="名称" show-overflow-tooltip />
             <el-table-column prop="description" label="描述" show-overflow-tooltip />
             <el-table-column prop="path" label="文件名" show-overflow-tooltip />
-            <el-table-column prop="os" label="操作系统">
+            <el-table-column prop="md5" label="校验码" show-overflow-tooltip />
+            <el-table-column prop="platform" label="平台">
                 <template #default="scope">
-                    <span v-if="scope.row.os === 'windows'">Windows</span>
-                    <span v-if="scope.row.os === 'osx'">MacOS</span>
+                    <span v-if="scope.row.platform === 'windows'">Windows</span>
+                    <span v-if="scope.row.platform === 'osx'">MacOS</span>
                 </template>
             </el-table-column>
             <el-table-column label="创建时间">
@@ -31,7 +32,7 @@
             :close-on-click-modal="false">
             <el-form :model="dialog.form" label-position="right" label-width="auto">
                 <el-form-item label="上传文件">
-                    <el-upload ref="uploadRef" action="/api/file/upload" :auto-upload="false" :limit="1"
+                    <el-upload ref="uploadRef" action="/api/file/upload" :auto-upload="false" :limit="1" style="width: 100%;"
                         :on-exceed="handleExceed" :on-success="handleUploadSuccess">
                         <template #trigger>
                             <el-button type="primary">请选择文件</el-button>
@@ -45,7 +46,7 @@
                     <el-input v-model="dialog.form.description" />
                 </el-form-item>
                 <el-form-item label="操作系统">
-                    <el-checkbox-group v-model="dialog.form.osList">
+                    <el-checkbox-group v-model="dialog.form.platformList">
                         <el-checkbox label="Windows" value="windows" />
                         <el-checkbox label="MacOS" value="osx" />
                     </el-checkbox-group>
@@ -106,6 +107,8 @@ export default {
     },
     methods: {
         dialogHandleClose(done) {
+            let upload = this.$refs.uploadRef
+            upload.clearFiles()
             done()
         },
         openAddDialog() {
@@ -116,7 +119,7 @@ export default {
                     name: "",
                     description: "",
                     path: "",
-                    osList: []
+                    platformList: []
                 }
             }
         },
@@ -126,6 +129,8 @@ export default {
         },
         async save() {
             let { status, data } = await http.post(`/api/appVersion/add`, this.dialog.form)
+            let upload = this.$refs.uploadRef
+            upload.clearFiles()
             this.dialog.visible = false
             this.list()
         },

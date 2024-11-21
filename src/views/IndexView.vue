@@ -12,11 +12,17 @@
                 <div>
                     <img src="../../public/banner.png" style="height: 180px;">
                     <div class="btn-group" style="margin-top: 100px;margin-left: 400px;">
-                        <a class="download-btn" :href="`/api/storage/${data.windows}`">
-                            <div>Windows下载</div>
+                        <a class="download-btn" v-if="null != data.windows" :href="`/api/storage/${data.windows}`">
+                            <div>Windows 下载</div>
                         </a>
-                        <a class="download-btn" :href="`/api/storage/${data.osx}`">
-                            <div>MacOS下载</div>
+                        <a class="download-btn" v-else>
+                            <div>Windows 敬请期待</div>
+                        </a>
+                        <a class="download-btn" v-if="null != data.osx" :href="`/api/storage/${data.osx}`">
+                            <div>MacOS 下载</div>
+                        </a>
+                        <a class="download-btn" v-else>
+                            <div>MacOS 敬请期待</div>
                         </a>
                     </div>
                 </div>
