@@ -88,6 +88,15 @@
                             {{ nodeDetailDialog.form.description }}
                         </el-descriptions-item>
                     </el-descriptions>
+                    <el-descriptions title="ICE列表">
+                        <el-descriptions-item>
+                            <el-table :data="nodeDetailDialog.form.addressList">
+                                <el-table-column prop="type" label="地址类型" />
+                                <el-table-column prop="address" label="地址" />
+                                <el-table-column prop="server" label="提供方" />
+                            </el-table>
+                        </el-descriptions-item>
+                    </el-descriptions>
                     <el-descriptions title="节点列表">
                         <el-descriptions-item>
                             <el-table :data="nodeDetailDialog.form.nodeList">
@@ -110,6 +119,11 @@
                                 <el-table-column prop="name" label="名称" width="120" />
                                 <el-table-column prop="description" label="描述" width="120" />
                                 <el-table-column prop="destination" label="目标地址" />
+                                <el-table-column label="是否启用" width="120">
+                                    <template #default="scope">
+                                        <el-switch v-model="scope.row.enable" disabled class="switch" />
+                                    </template>
+                                </el-table-column>
                             </el-table>
                         </el-descriptions-item>
                     </el-descriptions>
@@ -129,6 +143,11 @@
                                         {{ scope.row.ruleList.join(", ") }}
                                     </template>
                                 </el-table-column>
+                                <el-table-column label="是否启用" width="120">
+                                    <template #default="scope">
+                                        <el-switch v-model="scope.row.enable" disabled class="switch" />
+                                    </template>
+                                </el-table-column>
                             </el-table>
                         </el-descriptions-item>
                     </el-descriptions>
@@ -139,6 +158,11 @@
                                 <el-table-column prop="description" label="描述" width="120" />
                                 <el-table-column prop="srcCidr" label="源地址" />
                                 <el-table-column prop="dstCidr" label="目标地址" />
+                                <el-table-column label="是否启用" width="120">
+                                    <template #default="scope">
+                                        <el-switch v-model="scope.row.enable" disabled class="switch" />
+                                    </template>
+                                </el-table-column>
                             </el-table>
                         </el-descriptions-item>
                     </el-descriptions>
