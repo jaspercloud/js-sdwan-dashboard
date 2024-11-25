@@ -92,8 +92,8 @@
                         <el-descriptions-item>
                             <el-table :data="nodeDetailDialog.form.addressList">
                                 <el-table-column prop="type" label="地址类型" />
-                                <el-table-column prop="address" label="地址" />
-                                <el-table-column prop="server" label="提供方" />
+                                <el-table-column prop="provider" label="提供方" />
+                                <el-table-column prop="info" label="连接信息" />
                             </el-table>
                         </el-descriptions-item>
                     </el-descriptions>
