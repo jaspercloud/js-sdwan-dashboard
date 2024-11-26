@@ -132,10 +132,17 @@
                             <el-table :data="nodeDetailDialog.form.routeRuleList">
                                 <el-table-column prop="name" label="名称" width="120" />
                                 <el-table-column prop="description" label="描述" width="120" />
+                                <el-table-column label="策略" width="120">
+                                    <template #default="scope">
+                                        <span v-if="scope.row.strategy === 'Allow'">允许</span>
+                                        <span v-if="scope.row.strategy === 'Reject'">拒绝</span>
+                                    </template>
+                                </el-table-column>
                                 <el-table-column prop="direction" label="方向" width="120">
                                     <template #default="scope">
                                         <span v-if="scope.row.direction === 'Input'">入口</span>
                                         <span v-if="scope.row.direction === 'Output'">出口</span>
+                                        <span v-if="scope.row.direction === 'All'">全部</span>
                                     </template>
                                 </el-table-column>
                                 <el-table-column label="规则">
