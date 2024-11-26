@@ -5,13 +5,15 @@
             <el-button type="primary" @click="list">刷新</el-button>
         </div>
         <el-table :data="tableData" stripe style="height: 100%;" max-height="auto">
-            <el-table-column prop="id" label="序号" width="120" />
+            <el-table-column prop="id" label="序号" width="80" />
             <el-table-column prop="name" label="名称" width="120" show-overflow-tooltip />
             <el-table-column prop="description" label="描述" width="120" show-overflow-tooltip />
             <el-table-column prop="destination" label="目标地址" width="180" />
             <el-table-column label="节点列表">
                 <template #default="scope">
-                    <div>{{ showNodeList(scope.row) }}</div>
+                    <el-tag v-for="tag in scope.row.nodeList" :key="tag.id">
+                        {{ showTag(tag) }}
+                    </el-tag>
                 </template>
             </el-table-column>
             <el-table-column label="是否启用" width="120">
@@ -19,7 +21,7 @@
                     <el-switch v-model="scope.row.enable" disabled class="switch" />
                 </template>
             </el-table-column>
-            <el-table-column label="操作" fixed="right" width="300">
+            <el-table-column label="操作" fixed="right" width="150">
                 <template #default="scope">
                     <el-button link type="primary" size="small" @click="openEditDialog(scope.row)">编辑</el-button>
                     <el-button link type="danger" size="small" @click="del(scope.row)">删除</el-button>
@@ -195,16 +197,12 @@ export default {
                 await this.list()
             })
         },
-        showNodeList(row) {
-            let list = []
-            row.nodeList.forEach(e => {
-                let label = e.name
-                if (null == label) {
-                    label = e.mac
-                }
-                list.push(label)
-            });
-            return list.join(", ")
+        showTag(e) {
+            let label = e.name
+            if (null == label) {
+                label = e.mac
+            }
+            return label
         }
     }
 }

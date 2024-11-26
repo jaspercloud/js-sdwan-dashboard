@@ -5,9 +5,9 @@
             <el-button type="primary" @click="list">刷新</el-button>
         </div>
         <el-table :data="tableData" stripe style="height: 100%;" max-height="auto">
-            <el-table-column prop="id" label="序号" width="120" />
-            <el-table-column prop="name" label="名称" show-overflow-tooltip />
-            <el-table-column prop="description" label="描述" show-overflow-tooltip />
+            <el-table-column prop="id" label="序号" width="80" />
+            <el-table-column prop="name" label="名称" width="120" show-overflow-tooltip />
+            <el-table-column prop="description" label="描述" width="120" show-overflow-tooltip />
             <el-table-column prop="vip" label="分配地址" />
             <el-table-column prop="ip" label="公网地址" />
             <el-table-column prop="mac" label="物理地址" />
@@ -23,7 +23,7 @@
                     <el-switch v-model="scope.row.enable" disabled class="switch" />
                 </template>
             </el-table-column>
-            <el-table-column label="操作" fixed="right" width="300">
+            <el-table-column label="操作" fixed="right" width="150">
                 <template #default="scope">
                     <el-button link type="primary" size="small" @click="openDetailDialog(scope.row)">详情</el-button>
                     <el-button link type="primary" size="small" @click="openEditDialog(scope.row)">编辑</el-button>
@@ -140,7 +140,9 @@
                                 </el-table-column>
                                 <el-table-column label="规则">
                                     <template #default="scope">
-                                        {{ scope.row.ruleList.join(", ") }}
+                                        <el-tag v-for="tag in scope.row.ruleList" :key="tag">
+                                            {{ tag }}
+                                        </el-tag>
                                     </template>
                                 </el-table-column>
                                 <el-table-column label="是否启用" width="120">

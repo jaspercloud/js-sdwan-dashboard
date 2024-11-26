@@ -5,9 +5,9 @@
             <el-button type="primary" @click="list">刷新</el-button>
         </div>
         <el-table :data="tableData" stripe style="height: 100%;" max-height="auto">
-            <el-table-column prop="id" label="序号" width="120" />
-            <el-table-column prop="name" label="名称" show-overflow-tooltip />
-            <el-table-column prop="description" label="描述" show-overflow-tooltip />
+            <el-table-column prop="id" label="序号" width="80" />
+            <el-table-column prop="name" label="名称" width="120" show-overflow-tooltip />
+            <el-table-column prop="description" label="描述" width="120" show-overflow-tooltip />
             <el-table-column prop="path" label="文件名" show-overflow-tooltip />
             <el-table-column prop="md5" label="校验码" show-overflow-tooltip />
             <el-table-column prop="platform" label="平台">
@@ -21,7 +21,7 @@
                     {{ formatDate(scope.row.createTime) }}
                 </template>
             </el-table-column>
-            <el-table-column label="操作" fixed="right" width="300">
+            <el-table-column label="操作" fixed="right" width="150">
                 <template #default="scope">
                     <el-button link type="primary" size="small" @click="download(scope.row)">下载</el-button>
                     <el-button link type="danger" size="small" @click="del(scope.row)">删除</el-button>
@@ -32,8 +32,8 @@
             :close-on-click-modal="false">
             <el-form :model="dialog.form" label-position="right" label-width="auto">
                 <el-form-item label="上传文件">
-                    <el-upload ref="uploadRef" action="/api/file/upload" :auto-upload="false" :limit="1" style="width: 100%;"
-                        :on-exceed="handleExceed" :on-success="handleUploadSuccess">
+                    <el-upload ref="uploadRef" action="/api/file/upload" :auto-upload="false" :limit="1"
+                        style="width: 100%;" :on-exceed="handleExceed" :on-success="handleUploadSuccess">
                         <template #trigger>
                             <el-button type="primary">请选择文件</el-button>
                         </template>

@@ -8,9 +8,9 @@
             <el-text type="info">提示: 系统先判断拒绝的，再判断允许的</el-text>
         </div>
         <el-table :data="tableData" stripe style="height: 100%;margin-top: 20px;" max-height="auto">
-            <el-table-column prop="id" label="序号" width="120" />
-            <el-table-column prop="name" label="名称" width="120" />
-            <el-table-column prop="description" label="描述" width="120" />
+            <el-table-column prop="id" label="序号" width="80" />
+            <el-table-column prop="name" label="名称" width="120" show-overflow-tooltip />
+            <el-table-column prop="description" label="描述" width="120" show-overflow-tooltip />
             <el-table-column label="策略" width="120">
                 <template #default="scope">
                     <span v-if="scope.row.strategy === 'Allow'">允许</span>
@@ -27,7 +27,9 @@
             <el-table-column prop="level" label="优先级" width="120" />
             <el-table-column label="规则">
                 <template #default="scope">
-                    {{ scope.row.ruleList.join(", ") }}
+                    <el-tag v-for="tag in scope.row.ruleList" :key="tag">
+                        {{ tag }}
+                    </el-tag>
                 </template>
             </el-table-column>
             <el-table-column label="是否启用" width="120">
@@ -35,7 +37,7 @@
                     <el-switch v-model="scope.row.enable" disabled class="switch" />
                 </template>
             </el-table-column>
-            <el-table-column label="操作" fixed="right" width="300">
+            <el-table-column label="操作" fixed="right" width="150">
                 <template #default="scope">
                     <el-button link type="primary" size="small" @click="openEditDialog(scope.row)">编辑</el-button>
                     <el-button link type="danger" size="small" @click="del(scope.row)">删除</el-button>
