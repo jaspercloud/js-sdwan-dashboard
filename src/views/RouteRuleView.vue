@@ -4,7 +4,10 @@
             <el-button type="primary" @click="openAddDialog">新增</el-button>
             <el-button type="primary" @click="list">刷新</el-button>
         </div>
-        <el-table :data="tableData" stripe style="height: 100%;" max-height="auto">
+        <div style="margin-top: 20px;">
+            <el-text type="info">提示: 系统先判断拒绝的，再判断允许的</el-text>
+        </div>
+        <el-table :data="tableData" stripe style="height: 100%;margin-top: 20px;" max-height="auto">
             <el-table-column prop="id" label="序号" width="120" />
             <el-table-column prop="name" label="名称" width="120" />
             <el-table-column prop="description" label="描述" width="120" />
