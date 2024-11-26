@@ -179,7 +179,7 @@
                             </el-table>
                         </el-descriptions-item>
                     </el-descriptions>
-                    <el-descriptions title="应用到分组">
+                    <el-descriptions title="归属分组">
                         <el-descriptions-item>
                             <el-table :data="nodeDetailDialog.form.groupList">
                                 <el-table-column prop="name" label="名称" />
