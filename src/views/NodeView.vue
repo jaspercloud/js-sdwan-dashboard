@@ -67,7 +67,7 @@
                 </div>
             </template>
         </el-dialog>
-        <el-dialog v-model="nodeDetailDialog.visible" title="节点详情" width="800" :close-on-click-modal="false">
+        <el-dialog v-model="nodeDetailDialog.visible" title="节点详情" width="1000" :close-on-click-modal="false">
             <el-scrollbar height="600px">
                 <div class="flex direction-column">
                     <el-descriptions title="基本信息" :column="3" border style="margin-bottom: 20px;">
