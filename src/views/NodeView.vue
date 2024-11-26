@@ -12,6 +12,7 @@
             <el-table-column prop="ip" label="公网地址" />
             <el-table-column prop="mac" label="物理地址" />
             <el-table-column prop="os" label="操作系统类型" />
+            <el-table-column prop="nodeVersion" label="客户端版本" />
             <el-table-column prop="online" label="在线状态">
                 <template #default="scope">
                     <div v-if="scope.row.online" style="display: inline-block;color:#13ce66;">在线</div>
@@ -78,9 +79,12 @@
                             </div>
                             <div v-else style="display: inline-block;color:#f56c6c;">离线</div>
                         </el-descriptions-item>
-                        <el-descriptions-item label="操作系统类型">{{ nodeDetailDialog.form.os }}</el-descriptions-item>
+                        <el-descriptions-item label="客户端版本">
+                            {{ nodeDetailDialog.form.nodeVersion }}
+                        </el-descriptions-item>
                         <el-descriptions-item label="公网地址">{{ nodeDetailDialog.form.ip }}</el-descriptions-item>
                         <el-descriptions-item label="物理地址">{{ nodeDetailDialog.form.mac }}</el-descriptions-item>
+                        <el-descriptions-item label="操作系统类型">{{ nodeDetailDialog.form.os }}</el-descriptions-item>
                         <el-descriptions-item label="操作系统版本">
                             {{ nodeDetailDialog.form.osVersion }}
                         </el-descriptions-item>
