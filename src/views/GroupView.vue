@@ -13,9 +13,9 @@
                     <span v-if="scope.row.defaultGroup">默认</span>
                 </template>
             </el-table-column>
-            <el-table-column label="操作" fixed="right" width="150">
+            <el-table-column label="操作" fixed="right" width="200">
                 <template #default="scope">
-                    <el-button link type="primary" size="small" @click="members(scope.row.id)">成员管理</el-button>
+                    <el-button link type="primary" size="small" @click="manage(scope.row.id)">管理</el-button>
                     <el-button link type="primary" size="small" @click="openEditDialog(scope.row)">编辑</el-button>
                     <el-button v-if="!scope.row.defaultGroup" link type="danger" size="small"
                         @click="del(scope.row)">删除</el-button>
@@ -42,10 +42,27 @@
         </el-dialog>
         <el-dialog v-model="memberDialog.visible" title="成员管理" width="500" :close-on-click-modal="false">
             <el-form :model="memberDialog.form" label-position="right" label-width="auto">
-                <el-form-item label="成员列表">
-                    <el-select multiple collapse-tags collapse-tags-tooltip v-model="memberDialog.form.selectList"
-                        placeholder="请选择">
-                        <el-option v-for="item in memberDialog.form.options" :key="item.id" :label="item.name"
+                <el-form-item label="节点列表">
+                    <el-select multiple v-model="memberDialog.form.nodeIdList" placeholder="请选择">
+                        <el-option v-for="item in memberDialog.nodeList" :key="item.id" :label="item.name"
+                            :value="item.id" />
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="路由列表">
+                    <el-select multiple v-model="memberDialog.form.routeIdList" placeholder="请选择">
+                        <el-option v-for="item in memberDialog.routeList" :key="item.id" :label="item.name"
+                            :value="item.id" />
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="规则列表">
+                    <el-select multiple v-model="memberDialog.form.routeRuleIdList" placeholder="请选择">
+                        <el-option v-for="item in memberDialog.routeRuleList" :key="item.id" :label="item.name"
+                            :value="item.id" />
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="地址转换列表">
+                    <el-select multiple v-model="memberDialog.form.vnatIdList" placeholder="请选择">
+                        <el-option v-for="item in memberDialog.vnatList" :key="item.id" :label="item.name"
                             :value="item.id" />
                     </el-select>
                 </el-form-item>
@@ -67,8 +84,8 @@
 }
 </style>
 <script>
+import { ElMessageBox } from 'element-plus';
 import http from '../api';
-import { ElMessage, ElMessageBox } from 'element-plus'
 export default {
     data() {
         return {
@@ -145,20 +162,19 @@ export default {
             this.dialog.visible = false
             this.list()
         },
-        async members(id) {
+        async manage(id) {
+            let { status: groupStatus, data: group } = await http.get(`/api/group/detail/${id}`)
             let { status: nodeStatus, data: nodeData } = await http.get(`/api/node/list`)
-            let { status: memberStatus, data: memberData } = await http.get(`/api/group/memberList/${id}`)
-            let selectList = []
-            memberData.forEach(e => {
-                selectList.push(e.id)
-            });
+            let { status: routeStatus, data: routeData } = await http.get(`/api/route/list`)
+            let { status: routeRuleStatus, data: routeRuleData } = await http.get(`/api/route-rule/list`)
+            let { status: vnatStatus, data: vnatData } = await http.get(`/api/vnat/list`)
             this.memberDialog = {
                 visible: true,
-                form: {
-                    id: id,
-                    selectList: selectList,
-                    options: nodeData
-                }
+                nodeList: nodeData,
+                routeList: routeData,
+                routeRuleList: routeRuleData,
+                vnatList: vnatData,
+                form: group
             }
         },
         async edit() {
@@ -183,10 +199,7 @@ export default {
             })
         },
         async updateMembers() {
-            let { status, data } = await http.post(`/api/group/updateMemberList`, {
-                groupId: this.memberDialog.form.id,
-                memberIdList: this.memberDialog.form.selectList
-            })
+            let { status, data } = await http.post(`/api/group/updateMemberList`, this.memberDialog.form)
             this.memberDialog.visible = false
         }
     }

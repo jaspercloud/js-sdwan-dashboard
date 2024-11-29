@@ -41,14 +41,12 @@
                     <el-input v-model="dialog.form.destination" placeholder="192.168.1.1/24" />
                 </el-form-item>
                 <el-form-item label="节点列表">
-                    <el-select multiple collapse-tags collapse-tags-tooltip v-model="dialog.form.nodeIdList"
-                        placeholder="请选择">
+                    <el-select multiple v-model="dialog.form.nodeIdList" placeholder="请选择">
                         <el-option v-for="item in dialog.nodeList" :key="item.id" :label="item.name" :value="item.id" />
                     </el-select>
                 </el-form-item>
                 <el-form-item label="应用到分组">
-                    <el-select multiple collapse-tags collapse-tags-tooltip v-model="dialog.form.groupIdList"
-                        placeholder="请选择">
+                    <el-select multiple v-model="dialog.form.groupIdList" placeholder="请选择">
                         <el-option v-for="item in dialog.groupList" :key="item.id" :label="item.name"
                             :value="item.id" />
                     </el-select>
