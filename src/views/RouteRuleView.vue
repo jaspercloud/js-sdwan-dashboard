@@ -1,11 +1,12 @@
 <template>
     <div class="flex direction-column">
-        <div>
+        <div class="flex">
             <el-button type="primary" @click="openAddDialog">新增</el-button>
             <el-button type="primary" @click="list">刷新</el-button>
+            <el-checkbox style="padding-left: 20px;" v-model="enableOnly" @change="list">只显示启用的</el-checkbox>
         </div>
         <div style="margin-top: 20px;">
-            <el-text type="info">提示: 系统先判断拒绝的，再判断允许的</el-text>
+            <el-text type="info">提示: 数值越小，优先级越高</el-text>
         </div>
         <el-table :data="tableData" stripe style="height: 100%;margin-top: 20px;" max-height="auto">
             <el-table-column prop="id" label="序号" width="80" />
@@ -13,8 +14,8 @@
             <el-table-column prop="description" label="描述" width="120" show-overflow-tooltip />
             <el-table-column label="策略" width="120">
                 <template #default="scope">
-                    <span v-if="scope.row.strategy === 'Allow'">允许</span>
-                    <span v-if="scope.row.strategy === 'Reject'">拒绝</span>
+                    <span v-if="scope.row.strategy === 'Allow'" style="color:#13ce66;">允许</span>
+                    <span v-if="scope.row.strategy === 'Reject'" style="color:#f56c6c;">拒绝</span>
                 </template>
             </el-table-column>
             <el-table-column prop="direction" label="方向" width="120">
@@ -77,7 +78,9 @@
                 <el-form-item label="优先级">
                     <div class="flex direction-column flex-item">
                         <el-input v-model="dialog.form.level" type="number" />
-                        <span>数值越小，优先级越高</span>
+                        <div>
+                            <el-text type="info">提示: 数值越小，优先级越高</el-text>
+                        </div>
                     </div>
                 </el-form-item>
                 <el-form-item label="是否启用">
@@ -112,6 +115,7 @@ export default {
         return {
             dialog: {
                 visible: false,
+                enableOnly: false,
                 type: "",
                 title: "",
                 form: {}
@@ -193,7 +197,17 @@ export default {
         },
         async list() {
             let { status, data } = await http.get(`/api/route-rule/list`)
-            this.tableData = data
+            if (this.enableOnly) {
+                let list = []
+                data.forEach(e => {
+                    if (true == e.enable) {
+                        list.push(e)
+                    }
+                });
+                this.tableData = list
+            } else {
+                this.tableData = data
+            }
         },
         async saveOrUpdate() {
             switch (this.dialog.type) {
