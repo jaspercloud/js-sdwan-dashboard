@@ -3,9 +3,24 @@
         <div class="flex">
             <el-button type="primary" @click="openAddDialog">新增</el-button>
             <el-button type="primary" @click="list">刷新</el-button>
-            <el-checkbox style="padding-left: 20px;" v-model="enableOnly" @change="list">只显示启用的</el-checkbox>
         </div>
-        <div style="margin-top: 20px;">
+        <el-row :gutter="20" style="margin-top: 20px;">
+            <el-col :span="4">
+                <el-form-item label="分组">
+                    <el-select multiple collapse-tags v-model="search.groupIdList" placeholder="请选择" @change="list">
+                        <el-option v-for="item in groupList" :key="item.id" :label="item.name" :value="item.id">
+                            {{ item.name }}
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+            </el-col>
+            <el-col :span="4">
+                <el-form-item label="只显示启用的">
+                    <el-switch class="switch" v-model="search.enable" @change="list" />
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <div>
             <el-text type="info">提示: 数值越小，优先级越高</el-text>
         </div>
         <el-table :data="tableData" stripe style="height: 100%;margin-top: 20px;" max-height="auto">
@@ -113,9 +128,13 @@ export default {
     },
     data() {
         return {
+            groupList: [],
+            search: {
+                groupIdList: [],
+                enable: false,
+            },
             dialog: {
                 visible: false,
-                enableOnly: false,
                 type: "",
                 title: "",
                 form: {}
@@ -148,7 +167,9 @@ export default {
             ]
         }
     },
-    mounted() {
+    async mounted() {
+        let { status, data } = await http.get(`/api/group/list`)
+        this.groupList = data
         this.list()
     },
     computed: {
@@ -196,18 +217,8 @@ export default {
             }
         },
         async list() {
-            let { status, data } = await http.get(`/api/route-rule/list`)
-            if (this.enableOnly) {
-                let list = []
-                data.forEach(e => {
-                    if (true == e.enable) {
-                        list.push(e)
-                    }
-                });
-                this.tableData = list
-            } else {
-                this.tableData = data
-            }
+            let { status, data } = await http.post(`/api/route-rule/list`, this.search)
+            this.tableData = data
         },
         async saveOrUpdate() {
             switch (this.dialog.type) {
