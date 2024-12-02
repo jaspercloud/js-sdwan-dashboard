@@ -12,6 +12,7 @@
             <el-table-column prop="id" label="序号" width="80" />
             <el-table-column prop="name" label="名称" width="120" show-overflow-tooltip />
             <el-table-column prop="description" label="描述" width="120" show-overflow-tooltip />
+            <el-table-column prop="level" label="优先级" width="120" />
             <el-table-column label="策略" width="120">
                 <template #default="scope">
                     <span v-if="scope.row.strategy === 'Allow'" style="color:#13ce66;">允许</span>
@@ -25,7 +26,6 @@
                     <span v-if="scope.row.direction === 'All'">全部</span>
                 </template>
             </el-table-column>
-            <el-table-column prop="level" label="优先级" width="120" />
             <el-table-column label="规则">
                 <template #default="scope">
                     <el-tag v-for="tag in scope.row.ruleList" :key="tag">

@@ -24,8 +24,9 @@
                     <el-switch v-model="scope.row.enable" disabled class="switch" />
                 </template>
             </el-table-column>
-            <el-table-column label="操作" fixed="right" width="150">
+            <el-table-column label="操作" fixed="right" width="200">
                 <template #default="scope">
+                    <el-button link type="primary" size="small" @click="openTestDialog(scope.row)">测试</el-button>
                     <el-button link type="primary" size="small" @click="openDetailDialog(scope.row)">详情</el-button>
                     <el-button link type="primary" size="small" @click="openEditDialog(scope.row)">编辑</el-button>
                     <el-button link type="danger" size="small" @click="del(scope.row)">删除</el-button>
@@ -66,6 +67,27 @@
                 </div>
             </template>
         </el-dialog>
+        <el-dialog v-model="testDialog.visible" title="测试" width="500" :before-close="testDialogHandleClose"
+            :close-on-click-modal="false">
+            <el-form :model="dialog.form" label-position="top" label-width="auto">
+                <el-form-item label="IP地址">
+                    <el-input v-model="testDialog.form.ip" placeholder="请输入IP地址" @keyup.enter.native="test">
+                        <template #append>
+                            <el-button icon="Search" @click="test" />
+                        </template>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="结果">
+                    <el-timeline>
+                        <el-timeline-item v-for="item in testDialog.form.msgList" hide-timestamp="true" center="true"
+                            :type="item.success ? 'success' : 'danger'">
+                            {{ item.msg }}
+                        </el-timeline-item>
+                    </el-timeline>
+                </el-form-item>
+            </el-form>
+            <el-text type="info">模拟测试，结果可做参考</el-text>
+        </el-dialog>
         <el-dialog v-model="nodeDetailDialog.visible" title="节点详情" width="1000" :close-on-click-modal="false">
             <el-scrollbar height="600px">
                 <div class="flex direction-column">
@@ -103,7 +125,7 @@
                     <el-descriptions title="节点列表">
                         <el-descriptions-item>
                             <el-table :data="nodeDetailDialog.form.nodeList">
-                                <el-table-column prop="name" label="名称" />
+                                <el-table-column prop="name" label="名称" show-overflow-tooltip />
                                 <el-table-column prop="mac" label="物理地址" />
                                 <el-table-column prop="vip" label="分配地址" />
                                 <el-table-column prop="online" label="在线状态">
@@ -119,8 +141,8 @@
                     <el-descriptions title="路由">
                         <el-descriptions-item>
                             <el-table :data="nodeDetailDialog.form.routeList">
-                                <el-table-column prop="name" label="名称" width="120" />
-                                <el-table-column prop="description" label="描述" width="120" />
+                                <el-table-column prop="name" label="名称" width="120" show-overflow-tooltip />
+                                <el-table-column prop="description" label="描述" width="120" show-overflow-tooltip />
                                 <el-table-column prop="destination" label="目标地址" />
                                 <el-table-column label="是否启用" width="120">
                                     <template #default="scope">
@@ -132,13 +154,15 @@
                     </el-descriptions>
                     <el-descriptions title="路由规则">
                         <el-descriptions-item>
+                            <el-text type="info">提示: 数值越小，优先级越高</el-text>
                             <el-table :data="nodeDetailDialog.form.routeRuleList">
-                                <el-table-column prop="name" label="名称" width="120" />
-                                <el-table-column prop="description" label="描述" width="120" />
+                                <el-table-column prop="name" label="名称" width="120" show-overflow-tooltip />
+                                <el-table-column prop="description" label="描述" width="120" show-overflow-tooltip />
+                                <el-table-column prop="level" label="优先级" width="120" />
                                 <el-table-column label="策略" width="120">
                                     <template #default="scope">
-                                        <span v-if="scope.row.strategy === 'Allow'">允许</span>
-                                        <span v-if="scope.row.strategy === 'Reject'">拒绝</span>
+                                        <span v-if="scope.row.strategy === 'Allow'" style="color:#13ce66;">允许</span>
+                                        <span v-if="scope.row.strategy === 'Reject'" style="color:#f56c6c;">拒绝</span>
                                     </template>
                                 </el-table-column>
                                 <el-table-column prop="direction" label="方向" width="120">
@@ -166,8 +190,8 @@
                     <el-descriptions title="地址转换">
                         <el-descriptions-item>
                             <el-table :data="nodeDetailDialog.form.vnatList">
-                                <el-table-column prop="name" label="名称" width="120" />
-                                <el-table-column prop="description" label="描述" width="120" />
+                                <el-table-column prop="name" label="名称" width="120" show-overflow-tooltip />
+                                <el-table-column prop="description" label="描述" width="120" show-overflow-tooltip />
                                 <el-table-column prop="srcCidr" label="源地址" />
                                 <el-table-column prop="dstCidr" label="目标地址" />
                                 <el-table-column label="是否启用" width="120">
@@ -181,8 +205,8 @@
                     <el-descriptions title="归属分组">
                         <el-descriptions-item>
                             <el-table :data="nodeDetailDialog.form.groupList">
-                                <el-table-column prop="name" label="名称" />
-                                <el-table-column prop="description" label="描述" />
+                                <el-table-column prop="name" label="名称" show-overflow-tooltip />
+                                <el-table-column prop="description" label="描述" show-overflow-tooltip />
                             </el-table>
                         </el-descriptions-item>
                     </el-descriptions>
@@ -208,6 +232,11 @@ export default {
                 type: "",
                 title: "",
                 form: {}
+            },
+            testDialog: {
+                visible: false,
+                ip: "",
+                msgList: []
             },
             nodeDetailDialog: {
                 visible: false,
@@ -315,6 +344,25 @@ export default {
                 this.dialog.visible = false
                 await this.list()
             })
+        },
+        openTestDialog(row) {
+            this.testDialog = {
+                visible: true,
+                form: {
+                    nodeId: row.id,
+                    ip: "",
+                    msgList: []
+                }
+            }
+        },
+        testDialogHandleClose(done) {
+            done()
+        },
+        async test() {
+            this.testDialog.form.msgList = []
+            let { status, data } = await http.post(`/api/node/test`, this.testDialog.form)
+            this.testDialog.form.msgList = data
+            console.log(this.testDialog.form)
         }
     }
 }

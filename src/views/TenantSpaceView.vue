@@ -12,11 +12,11 @@
                     <el-menu-item index="/tenantSpace/route">
                         <span>路由管理</span>
                     </el-menu-item>
-                    <el-menu-item index="/tenantSpace/rule">
-                        <span>规则管理</span>
-                    </el-menu-item>
                     <el-menu-item index="/tenantSpace/vnat">
                         <span>地址转换</span>
+                    </el-menu-item>
+                    <el-menu-item index="/tenantSpace/rule">
+                        <span>规则管理</span>
                     </el-menu-item>
                     <el-menu-item index="/tenantSpace/group">
                         <span>分组管理</span>
