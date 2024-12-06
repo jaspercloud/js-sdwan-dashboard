@@ -9,7 +9,8 @@
                     <el-input v-model="form.password" type="password" show-password="true" size="large" />
                 </el-form-item>
             </el-form>
-            <el-button type="primary" style="width: 100%;margin-top: 50px;" size="large" @click="login">登录</el-button>
+            <el-button type="primary" style="width: 100%;margin-top: 50px;" size="large" @click="login"
+                :loading="loading">登录</el-button>
         </el-card>
     </div>
 </template>
@@ -21,13 +22,16 @@ export default {
         return {
             form: {
                 username: "",
-                password: ""
+                password: "",
+                loading: false
             }
         }
     },
     methods: {
         async login() {
+            this.loading = true
             let { status, data } = await http.post(`/api/account/login`, this.form)
+            this.loading = false
             cookie.set("Access-Token", data.accessToken)
             if (null == data.tenantId) {
                 this.$router.replace("/rootSpace")
