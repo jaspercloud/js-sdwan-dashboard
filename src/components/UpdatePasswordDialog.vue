@@ -42,6 +42,15 @@ export default {
             }
         };
     },
+    watch: {
+        modelValue(newValue, oldValue) {
+            this.updatePwdDialog.form = {
+                password: "",
+                conformPassword: "",
+                newPassword: ""
+            }
+        }
+    },
     mounted() {
         if (null != this.modelValue) {
             this.updatePwdDialog.visible = this.modelValue
@@ -54,11 +63,6 @@ export default {
     },
     methods: {
         onClosed(done) {
-            this.updatePwdDialog.form = {
-                password: "",
-                conformPassword: "",
-                newPassword: ""
-            }
             this.$emit("update:modelValue", false)
             done()
         },
