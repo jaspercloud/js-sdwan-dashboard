@@ -6,7 +6,7 @@
                     <el-input v-model="form.username" size="large" />
                 </el-form-item>
                 <el-form-item label="密码">
-                    <el-input v-model="form.password" type="password" show-password="true" size="large" />
+                    <el-input v-model="form.password" type="password" :show-password="true" size="large" />
                 </el-form-item>
             </el-form>
             <el-button type="primary" style="width: 100%;margin-top: 50px;" size="large" @click="login"

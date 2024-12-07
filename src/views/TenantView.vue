@@ -49,7 +49,7 @@
                     <el-input v-model="dialog.form.username" :disabled="dialog.type === 'edit'" autocomplete="off" />
                 </el-form-item>
                 <el-form-item label="密码">
-                    <el-input v-model="dialog.form.password" show-password="true" type="password"
+                    <el-input v-model="dialog.form.password" :show-password="true" type="password"
                         autocomplete="new-password" />
                 </el-form-item>
                 <el-form-item label="地址池">

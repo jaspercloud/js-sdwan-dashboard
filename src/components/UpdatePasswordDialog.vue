@@ -3,15 +3,15 @@
         :before-close="onClosed">
         <el-form :model="updatePwdDialog.form" label-position="right" label-width="auto">
             <el-form-item label="当前密码">
-                <el-input v-model="updatePwdDialog.form.password" type="password" show-password="true"
+                <el-input v-model="updatePwdDialog.form.password" type="password" :show-password="true"
                     autocomplete="new-password" />
             </el-form-item>
             <el-form-item label="新密码">
-                <el-input v-model="updatePwdDialog.form.newPassword" type="password" show-password="true"
+                <el-input v-model="updatePwdDialog.form.newPassword" type="password" :show-password="true"
                     autocomplete="new-password" />
             </el-form-item>
             <el-form-item label="确认密码">
-                <el-input v-model="updatePwdDialog.form.conformPassword" type="password" show-password="true"
+                <el-input v-model="updatePwdDialog.form.conformPassword" type="password" :show-password="true"
                     autocomplete="new-password" />
             </el-form-item>
         </el-form>

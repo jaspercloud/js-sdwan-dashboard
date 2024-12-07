@@ -24,7 +24,7 @@
         </el-header>
         <el-container>
             <el-aside style="height: 100%;" class="flex direction-column">
-                <el-menu :default-active="onRoutes" router="true" class="flex-item">
+                <el-menu :default-active="onRoutes" :router="true" class="flex-item">
                     <el-menu-item index="/tenantSpace/node">
                         <span>节点管理</span>
                     </el-menu-item>
