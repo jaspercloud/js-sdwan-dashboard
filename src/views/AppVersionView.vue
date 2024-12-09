@@ -23,9 +23,10 @@
                     {{ formatDate(scope.row.createTime) }}
                 </template>
             </el-table-column>
-            <el-table-column label="操作" fixed="right" width="150">
+            <el-table-column label="操作" fixed="right" width="200">
                 <template #default="scope">
-                    <el-button link type="primary" size="small" @click="download(scope.row)">下载</el-button>
+                    <el-button link type="primary" size="small" @click="downloadZip(scope.row)">下载zip</el-button>
+                    <el-button link type="primary" size="small" @click="downloadJar(scope.row)">下载jar</el-button>
                     <el-button link type="danger" size="small" @click="del(scope.row)">删除</el-button>
                 </template>
             </el-table-column>
@@ -153,8 +154,12 @@ export default {
                 await this.list()
             })
         },
-        download(row) {
-            let url = "/api/storage/" + row.path
+        downloadZip(row) {
+            let url = "/api/storage/" + row.zipPath
+            window.open(url, '_blank');
+        },
+        downloadJar(row) {
+            let url = "/api/storage/" + row.jarPath
             window.open(url, '_blank');
         },
         handleExceed(files) {
