@@ -8,8 +8,10 @@
             <el-table-column prop="id" label="序号" width="80" />
             <el-table-column prop="name" label="名称" width="120" show-overflow-tooltip />
             <el-table-column prop="description" label="描述" width="120" show-overflow-tooltip />
-            <el-table-column prop="path" label="文件名" show-overflow-tooltip />
-            <el-table-column prop="md5" label="校验码" show-overflow-tooltip />
+            <el-table-column prop="zipPath" label="文件名" show-overflow-tooltip />
+            <el-table-column prop="zipMd5" label="校验码" show-overflow-tooltip />
+            <el-table-column prop="jarPath" label="jar文件名" show-overflow-tooltip />
+            <el-table-column prop="jarMd5" label="jar校验码" show-overflow-tooltip />
             <el-table-column prop="platform" label="平台">
                 <template #default="scope">
                     <span v-if="scope.row.platform === 'windows'">Windows</span>
@@ -46,10 +48,10 @@
                     <el-input v-model="dialog.form.description" />
                 </el-form-item>
                 <el-form-item label="操作系统">
-                    <el-checkbox-group v-model="dialog.form.platformList">
-                        <el-checkbox label="Windows" value="windows" />
-                        <el-checkbox label="MacOS" value="macos" />
-                    </el-checkbox-group>
+                    <el-radio-group v-model="dialog.form.platform">
+                        <el-radio label="Windows" value="windows" />
+                        <el-radio label="MacOS" value="macos" />
+                    </el-radio-group>
                 </el-form-item>
             </el-form>
             <template #footer>
@@ -119,7 +121,7 @@ export default {
                     name: "",
                     description: "",
                     path: "",
-                    platformList: []
+                    platform: []
                 }
             }
         },
