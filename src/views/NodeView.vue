@@ -106,18 +106,18 @@
                             </div>
                             <div v-else style="display: inline-block;color:#f56c6c;">离线</div>
                         </el-descriptions-item>
-                        <el-descriptions-item label="客户端版本">
-                            {{ nodeDetailDialog.form.nodeVersion }}
-                        </el-descriptions-item>
-                        <el-descriptions-item label="公网地址">{{ nodeDetailDialog.form.ip }}</el-descriptions-item>
-                        <el-descriptions-item label="物理地址">{{ nodeDetailDialog.form.mac }}</el-descriptions-item>
-                        <el-descriptions-item label="操作系统类型">{{ nodeDetailDialog.form.os }}</el-descriptions-item>
-                        <el-descriptions-item label="操作系统版本">
-                            {{ nodeDetailDialog.form.osVersion }}
-                        </el-descriptions-item>
                         <el-descriptions-item prop="mesh" label="节点类型">
                             <div v-if="nodeDetailDialog.form.mesh">网关</div>
                             <div v-else>终端</div>
+                        </el-descriptions-item>
+                        <el-descriptions-item label="公网地址">{{ nodeDetailDialog.form.ip }}</el-descriptions-item>
+                        <el-descriptions-item label="物理地址">{{ nodeDetailDialog.form.mac }}</el-descriptions-item>
+                        <el-descriptions-item label="客户端版本">
+                            {{ nodeDetailDialog.form.nodeVersion }}
+                        </el-descriptions-item>
+                        <el-descriptions-item label="操作系统类型">{{ nodeDetailDialog.form.os }}</el-descriptions-item>
+                        <el-descriptions-item label="操作系统版本">
+                            {{ nodeDetailDialog.form.osVersion }}
                         </el-descriptions-item>
                         <el-descriptions-item label="描述">
                             {{ nodeDetailDialog.form.description }}
