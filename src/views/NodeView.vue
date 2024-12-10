@@ -305,7 +305,7 @@ export default {
             }
         },
         async list() {
-            let { status, data } = await http.get(`/api/node/list`)
+            let { status, data } = await http.post(`/api/node/list`, {})
             this.tableData = data
         },
         async saveOrUpdate() {

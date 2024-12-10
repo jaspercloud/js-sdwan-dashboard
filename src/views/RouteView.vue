@@ -109,7 +109,7 @@ export default {
             done()
         },
         async openAddDialog() {
-            let { status: nodeStatus, data: nodeData } = await http.get(`/api/node/list`)
+            let { status: nodeStatus, data: nodeData } = await http.post(`/api/node/list`, { meshOnly: true })
             let { status: groupStatus, data: groupData } = await http.get(`/api/group/list`)
             this.dialog = {
                 visible: true,
@@ -128,7 +128,7 @@ export default {
         },
         async openEditDialog(row) {
             let { status, data } = await http.get(`/api/route/detail/${row.id}`)
-            let { status: nodeStatus, data: nodeData } = await http.get(`/api/node/list`)
+            let { status: nodeStatus, data: nodeData } = await http.post(`/api/node/list`, { meshOnly: true })
             let { status: groupStatus, data: groupData } = await http.get(`/api/group/list`)
             let nodeIdList = []
             data.nodeList.forEach(e => {
