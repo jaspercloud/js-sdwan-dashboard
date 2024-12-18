@@ -8,18 +8,17 @@
             <el-table-column prop="id" label="序号" width="80" />
             <el-table-column prop="name" label="名称" width="120" show-overflow-tooltip />
             <el-table-column prop="description" label="描述" width="120" show-overflow-tooltip />
-            <el-table-column prop="vip" label="分配地址" />
-            <el-table-column prop="ip" label="公网地址" />
-            <el-table-column prop="mac" label="物理地址" />
-            <el-table-column prop="os" label="操作系统类型" />
-            <el-table-column prop="nodeVersion" label="客户端版本" />
-            <el-table-column prop="mesh" label="节点类型">
+            <el-table-column prop="vip" label="分配地址" show-overflow-tooltip />
+            <el-table-column prop="ip" label="公网地址" show-overflow-tooltip />
+            <el-table-column prop="mac" label="物理地址" show-overflow-tooltip />
+            <el-table-column prop="os" label="操作系统类型" show-overflow-tooltip />
+            <el-table-column prop="mesh" label="节点类型" width="100">
                 <template #default="scope">
                     <div v-if="scope.row.mesh">网关</div>
                     <div v-else>终端</div>
                 </template>
             </el-table-column>
-            <el-table-column prop="online" label="在线状态">
+            <el-table-column prop="online" label="在线状态" width="100">
                 <template #default="scope">
                     <div v-if="scope.row.online" style="display: inline-block;color:#13ce66;">在线</div>
                     <div v-else style="display: inline-block;color:#f56c6c;">离线</div>
