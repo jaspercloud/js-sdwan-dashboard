@@ -8,6 +8,10 @@
             <el-table-column prop="id" label="序号" width="80" />
             <el-table-column prop="name" label="名称" show-overflow-tooltip />
             <el-table-column prop="description" label="描述" show-overflow-tooltip />
+            <el-table-column prop="nodeCount" label="节点数" />
+            <el-table-column prop="routeCount" label="路由数" />
+            <el-table-column prop="vnatCount" label="地址转换数" />
+            <el-table-column prop="ruleCount" label="规则数" />
             <el-table-column label="默认" width="120">
                 <template #default="scope">
                     <span v-if="scope.row.defaultGroup">默认</span>
