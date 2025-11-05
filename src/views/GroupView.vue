@@ -170,7 +170,7 @@ export default {
             let { status: groupStatus, data: group } = await http.get(`/api/group/detail/${id}`)
             let { status: nodeStatus, data: nodeData } = await http.post(`/api/node/list`, {})
             let { status: routeStatus, data: routeData } = await http.get(`/api/route/list`)
-            let { status: routeRuleStatus, data: routeRuleData } = await http.get(`/api/route-rule/list`)
+            let { status: routeRuleStatus, data: routeRuleData } = await http.post(`/api/route-rule/list`, {})
             let { status: vnatStatus, data: vnatData } = await http.get(`/api/vnat/list`)
             this.memberDialog = {
                 visible: true,
