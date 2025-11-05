@@ -73,11 +73,11 @@
 <script>
 import { ElMessageBox, genFileId } from 'element-plus';
 import http from '../api';
-import TagX from '../components/TagX.vue';
+import TagGroup from '../components/TagGroup.vue';
 import dayjs from 'dayjs'
 export default {
     components: {
-        "tag-x": TagX
+        "tag-group": TagGroup
     },
     data() {
         return {

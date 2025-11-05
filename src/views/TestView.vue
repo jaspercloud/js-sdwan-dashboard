@@ -1,16 +1,16 @@
 <template>
     <div class="flex">
-        <tag-x :value="tagList"></tag-x>
+        <tag-group :value="tagList"></tag-group>
         <el-button @click="test">test</el-button>
     </div>
 </template>
 <style></style>
 <script>
-import TagX from '../components/TagX.vue';
+import TagGroup from '../components/TagGroup.vue';
 
 export default {
     components: {
-        "tag-x": TagX
+        "tag-group": TagGroup
     },
     data() {
         return {

@@ -33,8 +33,8 @@
                 </el-card>
             </div>
         </el-space>
-        <el-dialog v-model="dialog.visible" :title="showTitle" width="500" :before-close="dialogHandleClose"
-            :close-on-click-modal="false">
+        <el-dialog v-if="dialog.visible" v-model="dialog.visible" :title="showTitle" width="500"
+            :before-close="dialogHandleClose" :close-on-click-modal="false">
             <el-form :model="dialog.form" label-position="right" label-width="auto">
                 <el-form-item label="名称">
                     <el-input v-model="dialog.form.name" />
@@ -57,10 +57,10 @@
                         :disabled="dialog.type === 'edit'" />
                 </el-form-item>
                 <el-form-item label="stunServer">
-                    <tag-x v-model="dialog.form.stunServerList" placeholder="192.168.1.1:8080" />
+                    <tag-group v-model="dialog.form.stunServerList" placeholder="127.0.0.1:3478" />
                 </el-form-item>
                 <el-form-item label="relayServer">
-                    <tag-x v-model="dialog.form.relayServerList" placeholder="192.168.1.1:8080" />
+                    <tag-group v-model="dialog.form.relayServerList" placeholder="127.0.0.1:2478" />
                 </el-form-item>
                 <el-form-item label="是否需要认证">
                     <el-switch v-model="dialog.form.nodeGrant" class="switch" />
@@ -100,10 +100,10 @@
 <script>
 import { ElMessageBox } from 'element-plus';
 import http from '../api';
-import TagX from '../components/TagX.vue';
+import TagGroup from '../components/TagGroup.vue';
 export default {
     components: {
-        "tag-x": TagX
+        "tag-group": TagGroup
     },
     data() {
         return {

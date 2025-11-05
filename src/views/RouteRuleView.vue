@@ -82,7 +82,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="规则">
-                    <tag-x v-model="dialog.form.ruleList" placeholder="192.168.1.1/24"></tag-x>
+                    <tag-group v-model="dialog.form.ruleList" placeholder="192.168.1.1/24"></tag-group>
                 </el-form-item>
                 <el-form-item label="应用到分组">
                     <el-select multiple v-model="dialog.form.groupIdList" placeholder="请选择">
@@ -121,10 +121,10 @@
 <script>
 import { ElMessageBox } from 'element-plus';
 import http from '../api';
-import TagX from '../components/TagX.vue';
+import TagGroup from '../components/TagGroup.vue';
 export default {
     components: {
-        "tag-x": TagX
+        "tag-group": TagGroup
     },
     data() {
         return {

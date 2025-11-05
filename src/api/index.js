@@ -1,6 +1,6 @@
 import axios from 'axios'
 import cookie from 'js-cookie'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox, ElLoading } from 'element-plus'
 import router from '../router'
 
 const http = axios.create({
@@ -8,6 +8,14 @@ const http = axios.create({
 });
 
 http.interceptors.request.use(config => {
+    if ("get" != config.method) {
+        const loading = ElLoading.service({
+            lock: true,
+            text: 'Loading',
+            background: 'rgba(0, 0, 0, 0.7)',
+        })
+        config.loading = loading
+    }
     config.headers["Access-Token"] = cookie.get("Access-Token")
     let tenantId = sessionStorage.getItem("tenantId")
     if (null != tenantId) {
@@ -15,16 +23,25 @@ http.interceptors.request.use(config => {
     }
     return config;
 }, error => {
+    if (null != error.config.loading) {
+        error.config.loading.close()
+    }
     // 请求错误处理
     return Promise.reject(error);
 });
 
 http.interceptors.response.use(
     response => {
+        if (null != response.config.loading) {
+            response.config.loading.close()
+        }
         // 请求成功处理
         return response;
     },
     error => {
+        if (null != error.config.loading) {
+            error.config.loading.close()
+        }
         if (error.response) {
             // 客户端请求错误处理
             const { status } = error.response;
