@@ -13,8 +13,9 @@
 </template>
 <style>
 .new-tag {
-    width: 160px;
+    width: 200px;
     height: 30px;
+    font-size: 13px;
 }
 </style>
 <script>

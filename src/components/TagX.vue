@@ -10,11 +10,13 @@
 </template>
 <style>
 .edit-tag {
-    width: 160px;
+    width: 200px;
     height: 30px;
+    font-size: 13px;
 }
 
 .tag {
+    font-size: 13px;
     height: 30px;
     cursor: default;
     user-select: none;
