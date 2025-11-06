@@ -155,11 +155,11 @@ export default {
                     "value": "All"
                 },
                 {
-                    "label": "入口",
+                    "label": "入口 | 拦截源地址",
                     "value": "Input"
                 },
                 {
-                    "label": "出口",
+                    "label": "出口 | 拦截目标地址",
                     "value": "Output"
                 }
             ],
