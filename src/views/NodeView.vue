@@ -38,8 +38,8 @@
                 </template>
             </el-table-column>
         </el-table>
-        <el-dialog v-model="dialog.visible" :title="showTitle" width="500" :before-close="dialogHandleClose"
-            :close-on-click-modal="false">
+        <el-dialog v-if="dialog.visible" v-model="dialog.visible" :title="showTitle" width="500"
+            :before-close="dialogHandleClose" :close-on-click-modal="false">
             <el-form :model="dialog.form" label-position="right" label-width="auto">
                 <el-form-item label="名称">
                     <el-input v-model="dialog.form.name" />
@@ -49,6 +49,12 @@
                 </el-form-item>
                 <el-form-item label="物理地址">
                     <el-input v-model="dialog.form.mac" :disabled="dialog.type === 'edit'" />
+                </el-form-item>
+                <el-form-item label="节点类型">
+                    <el-select v-model="dialog.form.mesh" placeholder="请选择">
+                        <el-option label="终端" :value="false" />
+                        <el-option label="网关" :value="true" />
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="应用到分组">
                     <el-select multiple v-model="dialog.form.groupIdList" placeholder="请选择">
@@ -72,8 +78,8 @@
                 </div>
             </template>
         </el-dialog>
-        <el-dialog v-model="testDialog.visible" title="测试" width="500" :before-close="testDialogHandleClose"
-            :close-on-click-modal="false">
+        <el-dialog v-if="testDialog.visible" v-model="testDialog.visible" title="测试" width="500"
+            :before-close="testDialogHandleClose" :close-on-click-modal="false">
             <el-form :model="dialog.form" label-position="top" label-width="auto">
                 <el-form-item label="IP地址">
                     <el-input v-model="testDialog.form.ip" placeholder="请输入IP地址" @keyup.enter.native="test">
@@ -93,7 +99,8 @@
             </el-form>
             <el-text type="info">模拟测试，结果可做参考</el-text>
         </el-dialog>
-        <el-dialog v-model="nodeDetailDialog.visible" title="节点详情" width="1000" :close-on-click-modal="false">
+        <el-dialog v-if="nodeDetailDialog.visible" v-model="nodeDetailDialog.visible" title="节点详情" width="1000"
+            :close-on-click-modal="false">
             <el-scrollbar height="600px">
                 <div class="flex direction-column">
                     <el-descriptions title="基本信息" :column="3" border style="margin-bottom: 20px;">

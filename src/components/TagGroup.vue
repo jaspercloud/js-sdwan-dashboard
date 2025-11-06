@@ -5,7 +5,7 @@
                 @update:model-value="(val) => updateTag(index, val)" @close="handleClose(tag)" />
         </div>
         <div>
-            <el-input v-if="inputVisible" ref="inputRef" v-model="inputValue" class="new-tag" :placeholder="place"
+            <el-input v-if="inputVisible" ref="inputRef" v-model="inputValue" class="new-tag" :placeholder="inputPlaceholder"
                 @keyup.enter="handleInputConfirm" @blur="handleInputConfirm" />
             <el-button v-else @click="showInput">新增</el-button>
         </div>
@@ -31,7 +31,7 @@ export default {
             tags: [],
             inputVisible: false,
             inputValue: "",
-            place: ""
+            inputPlaceholder: ""
         }
     },
     mounted() {
@@ -39,7 +39,7 @@ export default {
             this.tags = this.modelValue
         }
         if (null != this.placeholder) {
-            this.place = this.placeholder
+            this.inputPlaceholder = this.placeholder
         }
     },
     updated() {
@@ -47,7 +47,7 @@ export default {
             this.tags = this.modelValue
         }
         if (null != this.placeholder) {
-            this.place = this.placeholder
+            this.inputPlaceholder = this.placeholder
         }
     },
     methods: {
